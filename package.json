@@ -1,0 +1,22 @@
+{
+  "name": "sun",
+  "version": "1.0.0",
+  "description": "API",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waldiirawan/kasbondong-sun.git"
+  },
+  "author": "Waldi Irawan",
+  "license": "CLOSESOURCE",
+  "bugs": {
+    "url": "https://github.com/waldiirawan/kasbondong-sun/issues"
+  },
+  "homepage": "https://github.com/waldiirawan/kasbondong-sun#readme"
+}
