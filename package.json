@@ -2,7 +2,7 @@
   "name": "sun",
   "version": "1.0.0",
   "description": "API",
-  "main": "index.js",
+  "main": "server.js",
   "directories": {
     "test": "tests"
   },
