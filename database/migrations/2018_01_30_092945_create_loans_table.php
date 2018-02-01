@@ -16,6 +16,7 @@ class CreateLoansTable extends Migration
         Schema::create('loans', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('user_id')->unique();
+            $table->enum('term_type', ['oncepaid', 'installments']);
             $table->string('term', 100);
             $table->decimal('principal', 14);
             $table->decimal('interest', 14);

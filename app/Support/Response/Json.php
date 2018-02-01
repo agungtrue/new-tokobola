@@ -9,12 +9,7 @@ class Json
     static $Json = [
         'timestamp' => NULL,
         'environment' => NULL,
-        'data' => NULL,
-        'response' => [
-            'code' => 500,
-            'description' => 'Internal Server Error',
-            'message' => NULL
-        ]
+        'data' => NULL
     ];
 
     public static function custom($JsonArray)
@@ -24,13 +19,10 @@ class Json
 
     public static function get($CompositeKey = NULL)
     {
-        if($CompositeKey)
-        {
+        if ($CompositeKey) {
             $Init = new self();
             return $Init->GetVal(self::$Json, $CompositeKey);
-        }
-        else
-        {
+        } else {
             return self::$Json;
         }
     }
@@ -44,8 +36,7 @@ class Json
     protected function GetVal(&$arr, $Path)
     {
         $loc = &$arr;
-        foreach(explode('.', $Path) as $step)
-        {
+        foreach(explode('.', $Path) as $step) {
             $loc = &$loc[$step];
         }
         return $loc;
@@ -54,8 +45,7 @@ class Json
     protected function SetVal(&$arr, $Path, $Val)
     {
         $loc = &$arr;
-        foreach(explode('.', $Path) as $step)
-        {
+        foreach(explode('.', $Path) as $step) {
             $loc = &$loc[$step];
         }
         return $loc = $Val;

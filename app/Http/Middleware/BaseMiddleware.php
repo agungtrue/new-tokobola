@@ -16,6 +16,7 @@ abstract class BaseMiddleware
     {
         $this->Json = Json::class;
         $this->Validator = InputValidation::class;
+        $this->HttpCode = 400;
         $this->Model = (object)[];
         $this->Payload = collect([]);
         $this->_Request = $request;

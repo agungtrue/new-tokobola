@@ -10,6 +10,7 @@ use App\Models\MemberCompany;
 use App\Models\Loan;
 
 use Closure;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Middleware\BaseMiddleware;
 
 class Insert extends BaseMiddleware
@@ -69,13 +70,13 @@ class Insert extends BaseMiddleware
         $this->Model->MemberFamily->family_province = $this->_Request->input('family_province');
         $this->Model->MemberFamily->family_city = $this->_Request->input('family_city');
         $this->Model->MemberFamily->family_sub_district = $this->_Request->input('family_sub_district');
-        $this->Model->MemberFamily->family_sub_urban_village = $this->_Request->input('family_sub_urban_village');
+        $this->Model->MemberFamily->family_urban_village = $this->_Request->input('family_urban_village');
         $this->Model->MemberFamily->family_postal_code = $this->_Request->input('family_postal_code');
 
         $this->Model->MemberCompany->company_name = $this->_Request->input('company_name');
         $this->Model->MemberCompany->company_phone_number = $this->_Request->input('company_phone_number');
         $this->Model->MemberCompany->company_address = $this->_Request->input('company_address');
-        $this->Model->MemberCompany->company_provice = $this->_Request->input('company_provice');
+        $this->Model->MemberCompany->company_province = $this->_Request->input('company_province');
         $this->Model->MemberCompany->company_city = $this->_Request->input('company_city');
         $this->Model->MemberCompany->company_sub_district = $this->_Request->input('company_sub_district');
         $this->Model->MemberCompany->company_urban_village = $this->_Request->input('company_urban_village');
@@ -83,7 +84,12 @@ class Insert extends BaseMiddleware
 
         $this->Model->Loan->principal = $this->_Request->input('loan_amount');
         $this->Model->Loan->reason = $this->_Request->input('reason');
+        $this->Model->Loan->term_type = $this->_Request->input('term_type');
         $this->Model->Loan->term = $this->_Request->input('term');
+
+        $this->IDCardImage = $this->_Request->input('idcard_image') ? json_decode($this->_Request->input('idcard_image')) : null;
+        $this->PaySlipImage = $this->_Request->input('pay_slip_image') ? json_decode($this->_Request->input('pay_slip_image')) : null;
+        $this->ProfileImage = $this->_Request->input('profile_image') ? json_decode($this->_Request->input('profile_image')) : null;
     }
 
     private function Validation()
@@ -91,6 +97,59 @@ class Insert extends BaseMiddleware
         if(!$this->Validator::Require($this->_Request->input('name'))) {
             return false;
         }
+
+        if ($this->IDCardImage) {
+            if (isset($this->IDCardImage->key) && isset($this->IDCardImage->extension)) {
+                $this->IDCardImage->original = $this->IDCardImage->key . '-original.' . $this->IDCardImage->extension;
+                $this->IDCardImage->small = $this->IDCardImage->key . '-small.' . $this->IDCardImage->extension;
+                if (!Storage::disk('temporary')->exists($this->IDCardImage->original)) {
+                    echo 'original not found';
+                    return false;
+                } elseif (!Storage::disk('temporary')->exists($this->IDCardImage->small)) {
+                    echo 'small not found';
+                    return false;
+                }
+                $this->Payload->put('IDCardImage', $this->IDCardImage);
+            } else {
+                echo "error IDCardImage";
+                return false;
+            }
+        }
+        if ($this->PaySlipImage) {
+            $this->PaySlipImage->original = $this->PaySlipImage->key . '-original.' . $this->PaySlipImage->extension;
+            $this->PaySlipImage->small = $this->PaySlipImage->key . '-small.' . $this->PaySlipImage->extension;
+            if (isset($this->PaySlipImage->key) && isset($this->PaySlipImage->extension)) {
+                if (!Storage::disk('temporary')->exists($this->PaySlipImage->original)) {
+                    echo 'original not found';
+                    return false;
+                } elseif (!Storage::disk('temporary')->exists($this->PaySlipImage->small)) {
+                    echo 'small not found';
+                    return false;
+                }
+                $this->Payload->put('PaySlipImage', $this->PaySlipImage);
+            } else {
+                echo "error PaySlipImage";
+                return false;
+            }
+        }
+        if ($this->ProfileImage) {
+            $this->ProfileImage->original = $this->ProfileImage->key . '-original.' . $this->ProfileImage->extension;
+            $this->ProfileImage->small = $this->ProfileImage->key . '-small.' . $this->ProfileImage->extension;
+            if (isset($this->ProfileImage->key) && isset($this->ProfileImage->extension)) {
+                if (!Storage::disk('temporary')->exists($this->ProfileImage->original)) {
+                    echo 'original not found';
+                    return false;
+                } elseif (!Storage::disk('temporary')->exists($this->ProfileImage->small)) {
+                    echo 'small not found';
+                    return false;
+                }
+                $this->Payload->put('ProfileImage', $this->ProfileImage);
+            } else {
+                echo "error ProfileImage";
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -102,7 +161,7 @@ class Insert extends BaseMiddleware
             $this->_Request->merge(['Payload' => $this->Payload]);
             return $next($this->_Request);
         } else {
-            return response()->json($this->Json::get(), $this->Json::get('response.code'));
+            return response()->json($this->Json::get(), $this->HttpCode);
         }
     }
 }

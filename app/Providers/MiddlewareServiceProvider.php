@@ -14,6 +14,8 @@ class MiddlewareServiceProvider extends ServiceProvider
         'auth' => \App\Http\Middleware\Authenticate::class,
 
         'Member.Insert' => \App\Http\Middleware\Member\Insert::class,
+
+        'Image.Upload' => \App\Http\Middleware\Image\Upload::class,
     ];
 
     /**

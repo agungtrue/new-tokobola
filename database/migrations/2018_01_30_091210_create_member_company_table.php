@@ -18,7 +18,7 @@ class CreateMemberCompanyTable extends Migration
             $table->string('company_name', 255);
             $table->string('company_phone_number', 14);
             $table->text('company_address');
-            $table->string('company_provice', 255);
+            $table->string('company_province', 255);
             $table->string('company_city', 255);
             $table->string('company_sub_district', 255);
             $table->string('company_urban_village', 255);

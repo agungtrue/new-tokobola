@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
+use App\Support\Response\Json;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,6 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        Json::set('timestamp', Carbon::now());
+        Json::set('environment', env('APP_ENV'));
         app('translator')->setLocale('id');
     }
 }

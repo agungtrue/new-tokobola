@@ -34,9 +34,9 @@ class CreateMembersTable extends Migration
             $table->string('last_education', 255);
             $table->string('dependents', 255);
             $table->decimal('kpr_installment', 14);
-            $table->string('idcard_image', 400);
-            $table->string('pay_slip_image', 400);
-            $table->string('profile_image', 400);
+            $table->string('idcard_image', 400)->nullable()->default(null);
+            $table->string('pay_slip_image', 400)->nullable()->default(null);
+            $table->string('profile_image', 400)->nullable()->default(null);
             $table->string('profession', 255);
             $table->string('work_position', 255);
             $table->string('work_start_year');

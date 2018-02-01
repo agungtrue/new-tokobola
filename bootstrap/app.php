@@ -25,8 +25,6 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
-$app->withEloquent();
-
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -67,8 +65,17 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\MiddlewareServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
+$app->register(Intervention\Image\ImageServiceProviderLumen::class);
+$app->register(\Jenssegers\Mongodb\MongodbServiceProvider::class);
+$app->alias('Moloquent', \Jenssegers\Mongodb\Eloquent\Model::class);
 
 Dusterio\LumenPassport\LumenPassport::routes($app);
+
+$app->singleton('filesystem', function ($app) {
+    return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
+});
+
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------

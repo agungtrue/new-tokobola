@@ -15,7 +15,9 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/member', ['uses' => 'MemberController@get']);
-$router->post('/member', ['uses' => 'MemberController@create', 'middleware' => ['Member.Insert']]);
-$router->put('/member', ['uses' => 'MemberController@update']);
-$router->delete('/member', ['uses' => 'MemberController@delete']);
+$router->get('/member', ['uses' => 'Member\MemberController@get']);
+$router->post('/member', ['uses' => 'Member\MemberController@create', 'middleware' => ['Member.Insert']]);
+$router->put('/member', ['uses' => 'Member\MemberController@update']);
+$router->delete('/member', ['uses' => 'Member\MemberController@delete']);
+
+$router->post('/image', ['uses' => 'Image\ImageController@upload', 'middleware' => ['Image.Upload']]);

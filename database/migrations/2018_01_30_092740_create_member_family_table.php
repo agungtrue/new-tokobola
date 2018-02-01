@@ -21,7 +21,7 @@ class CreateMemberFamilyTable extends Migration
             $table->string('family_province', 255);
             $table->string('family_city', 255);
             $table->string('family_sub_district', 255);
-            $table->string('family_sub_urban_village', 255);
+            $table->string('family_urban_village', 255);
             $table->string('family_postal_code', 20);
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
