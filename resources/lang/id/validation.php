@@ -36,14 +36,14 @@ return [
     'digits' => 'Isian :attribute harus berupa angka :digits.',
     'digits_between' => 'Isian :attribute harus antara angka :min dan :max.',
     'dimensions' => 'Bidang :attribute tidak memiliki dimensi gambar yang valid.',
-    'distinct' => 'Bidang isian :attribute memiliki nilai yang duplikat.',
+    'distinct' => ':attribute memiliki nilai yang duplikat.',
     'email' => 'Isian :attribute harus berupa alamat surel yang valid.',
     'exists' => 'Isian :attribute yang dipilih tidak valid.',
     'file' => 'Bidang :attribute harus berupa sebuah berkas.',
     'filled' => 'Isian :attribute harus memiliki nilai.',
     'image' => 'Isian :attribute harus berupa gambar.',
     'in' => 'Isian :attribute yang dipilih tidak valid.',
-    'in_array' => 'Bidang isian :attribute tidak terdapat dalam :other.',
+    'in_array' => ':attribute tidak terdapat dalam :other.',
     'integer' => 'Isian :attribute harus merupakan bilangan bulat.',
     'ip' => 'Isian :attribute harus berupa alamat IP yang valid.',
     'ipv4' => 'Isian :attribute harus berupa alamat IPv4 yang valid.',
@@ -65,15 +65,15 @@ return [
     ],
     'not_in' => 'Isian :attribute yang dipilih tidak valid.',
     'numeric' => 'Isian :attribute harus berupa angka.',
-    'present' => 'Bidang isian :attribute wajib ada.',
+    'present' => ':attribute wajib ada.',
     'regex' => 'Format isian :attribute tidak valid.',
-    'required' => 'Bidang isian :attribute wajib diisi.',
-    'required_if' => 'Bidang isian :attribute wajib diisi bila :other adalah :value.',
-    'required_unless' => 'Bidang isian :attribute wajib diisi kecuali :other memiliki nilai :values.',
-    'required_with' => 'Bidang isian :attribute wajib diisi bila terdapat :values.',
-    'required_with_all' => 'Bidang isian :attribute wajib diisi bila terdapat :values.',
-    'required_without' => 'Bidang isian :attribute wajib diisi bila tidak terdapat :values.',
-    'required_without_all' => 'Bidang isian :attribute wajib diisi bila tidak terdapat ada :values.',
+    'required' => ':attribute wajib diisi.',
+    'required_if' => ':attribute wajib diisi bila :other adalah :value.',
+    'required_unless' => ':attribute wajib diisi kecuali :other memiliki nilai :values.',
+    'required_with' => ':attribute wajib diisi bila terdapat :values.',
+    'required_with_all' => ':attribute wajib diisi bila terdapat :values.',
+    'required_without' => ':attribute wajib diisi bila tidak terdapat :values.',
+    'required_without_all' => ':attribute wajib diisi bila tidak terdapat ada :values.',
     'same' => 'Isian :attribute dan :other harus sama.',
     'size' => [
         'numeric' => 'Isian :attribute harus berukuran :size.',
@@ -104,6 +104,8 @@ return [
         ],
     ],
 
+    'invalid_json_format' => 'harap periksa format :attribute json yang dikirim.',
+
     /*
     |---------------------------------------------------------------------------------------
     | Kustom Validasi Atribut
@@ -116,5 +118,9 @@ return [
     */
 
     'attributes' => [
+        'name' => 'nama',
+        'idcard_image' => 'Foto KTP',
+        'pay_slip_image' => 'Foto Slip Gaji',
+        'profile_image' => 'Foto'
     ],
 ];

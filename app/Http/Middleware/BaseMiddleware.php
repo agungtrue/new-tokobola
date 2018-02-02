@@ -20,6 +20,7 @@ abstract class BaseMiddleware
         $this->Model = (object)[];
         $this->Payload = collect([]);
         $this->_Request = $request;
+        $this->errors = collect([]);
     }
 
     public function setRequest($request)
@@ -31,4 +32,9 @@ abstract class BaseMiddleware
     {
         return $this->_Request;
     }
+
+    protected function transAttribute($key) {
+        return trans('validation.attributes.' . $key);
+    }
+
 }

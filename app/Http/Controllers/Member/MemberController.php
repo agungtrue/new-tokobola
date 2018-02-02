@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member;
 
 use App\Models\Image;
+use App\Support\Response\Json;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Response;
@@ -27,7 +28,7 @@ class MemberController extends Controller
         $Model->MemberCompany->user_id = $Model->User->id;
         $Model->Loan->user_id = $Model->User->id;
 
-        if ($IDCardImage = $request->Payload->all()['IDCardImage']) {
+        if (isset($request->Payload->all()['IDCardImage']) && $IDCardImage = $request->Payload->all()['IDCardImage']) {
             Storage::disk('s3')->put(config('filesystems.disks.s3.ImagesDirectory').$IDCardImage->original,
             Storage::disk('temporary')->get($IDCardImage->original), 'public');
 
@@ -40,7 +41,7 @@ class MemberController extends Controller
             $CollectionImage->save();
             $Model->Member->idcard_image = $CollectionImage->id;
         }
-        if ($PaySlipImage = $request->Payload->all()['PaySlipImage']) {
+        if (isset($request->Payload->all()['PaySlipImage']) && $PaySlipImage = $request->Payload->all()['PaySlipImage']) {
             Storage::disk('s3')->put(config('filesystems.disks.s3.ImagesDirectory').$PaySlipImage->original,
             Storage::disk('temporary')->get($PaySlipImage->original), 'public');
 
@@ -53,7 +54,7 @@ class MemberController extends Controller
             $CollectionImage->save();
             $Model->Member->pay_slip_image = $CollectionImage->id;
         }
-        if ($ProfileImage = $request->Payload->all()['ProfileImage']) {
+        if (isset($request->Payload->all()['ProfileImage']) && $ProfileImage = $request->Payload->all()['ProfileImage']) {
             Storage::disk('s3')->put(config('filesystems.disks.s3.ImagesDirectory').$ProfileImage->original,
             Storage::disk('temporary')->get($ProfileImage->original), 'public');
 
@@ -88,6 +89,7 @@ class MemberController extends Controller
         $Model->MemberFamily->save();
         $Model->MemberCompany->save();
         $Model->Loan->save();
+        return response()->json(Json::get(), 201);
     }
 
     public function update(Request $request)

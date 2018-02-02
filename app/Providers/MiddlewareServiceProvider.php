@@ -7,11 +7,13 @@ use Illuminate\Support\ServiceProvider;
 class MiddlewareServiceProvider extends ServiceProvider
 {
     protected $middleware = [
+        \Barryvdh\Cors\HandleCors::class,
         // App\Http\Middleware\ExampleMiddleware::class
     ];
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'cors' => \Barryvdh\Cors\HandleCors::class,
 
         'Member.Insert' => \App\Http\Middleware\Member\Insert::class,
 

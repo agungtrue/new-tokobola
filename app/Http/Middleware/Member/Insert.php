@@ -10,6 +10,7 @@ use App\Models\MemberCompany;
 use App\Models\Loan;
 
 use Closure;
+use Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Middleware\BaseMiddleware;
 
@@ -94,7 +95,11 @@ class Insert extends BaseMiddleware
 
     private function Validation()
     {
-        if(!$this->Validator::Require($this->_Request->input('name'))) {
+        $validator = Validator::make($this->_Request->all(), [
+            'name' => 'required|max:255',
+        ]);
+        if ($validator->fails()) {
+            $this->Json::set('errors', $validator->errors());
             return false;
         }
 
@@ -102,55 +107,57 @@ class Insert extends BaseMiddleware
             if (isset($this->IDCardImage->key) && isset($this->IDCardImage->extension)) {
                 $this->IDCardImage->original = $this->IDCardImage->key . '-original.' . $this->IDCardImage->extension;
                 $this->IDCardImage->small = $this->IDCardImage->key . '-small.' . $this->IDCardImage->extension;
-                if (!Storage::disk('temporary')->exists($this->IDCardImage->original)) {
-                    echo 'original not found';
-                    return false;
-                } elseif (!Storage::disk('temporary')->exists($this->IDCardImage->small)) {
-                    echo 'small not found';
+                if (!Storage::disk('temporary')->exists($this->IDCardImage->original) || !Storage::disk('temporary')->exists($this->IDCardImage->small)) {
+                    $this->Json::set('errors.idcard_image', [
+                        trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('idcard_image')])
+                    ]);
                     return false;
                 }
                 $this->Payload->put('IDCardImage', $this->IDCardImage);
             } else {
-                echo "error IDCardImage";
+                $this->Json::set('errors.idcard_image', [
+                    trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('idcard_image')])
+                ]);
                 return false;
             }
         }
         if ($this->PaySlipImage) {
-            $this->PaySlipImage->original = $this->PaySlipImage->key . '-original.' . $this->PaySlipImage->extension;
-            $this->PaySlipImage->small = $this->PaySlipImage->key . '-small.' . $this->PaySlipImage->extension;
             if (isset($this->PaySlipImage->key) && isset($this->PaySlipImage->extension)) {
-                if (!Storage::disk('temporary')->exists($this->PaySlipImage->original)) {
-                    echo 'original not found';
-                    return false;
-                } elseif (!Storage::disk('temporary')->exists($this->PaySlipImage->small)) {
-                    echo 'small not found';
+                $this->PaySlipImage->original = $this->PaySlipImage->key . '-original.' . $this->PaySlipImage->extension;
+                $this->PaySlipImage->small = $this->PaySlipImage->key . '-small.' . $this->PaySlipImage->extension;
+                if (!Storage::disk('temporary')->exists($this->PaySlipImage->original) || !Storage::disk('temporary')->exists($this->PaySlipImage->small)) {
+                    $this->Json::set('errors.idcard_image', [
+                        trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('pay_slip_image')])
+                    ]);
                     return false;
                 }
                 $this->Payload->put('PaySlipImage', $this->PaySlipImage);
             } else {
-                echo "error PaySlipImage";
+                $this->Json::set('errors.idcard_image', [
+                    trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('pay_slip_image')])
+                ]);
                 return false;
             }
         }
         if ($this->ProfileImage) {
-            $this->ProfileImage->original = $this->ProfileImage->key . '-original.' . $this->ProfileImage->extension;
-            $this->ProfileImage->small = $this->ProfileImage->key . '-small.' . $this->ProfileImage->extension;
             if (isset($this->ProfileImage->key) && isset($this->ProfileImage->extension)) {
-                if (!Storage::disk('temporary')->exists($this->ProfileImage->original)) {
-                    echo 'original not found';
-                    return false;
-                } elseif (!Storage::disk('temporary')->exists($this->ProfileImage->small)) {
-                    echo 'small not found';
+                $this->ProfileImage->original = $this->ProfileImage->key . '-original.' . $this->ProfileImage->extension;
+                $this->ProfileImage->small = $this->ProfileImage->key . '-small.' . $this->ProfileImage->extension;
+                if (!Storage::disk('temporary')->exists($this->ProfileImage->original) || !Storage::disk('temporary')->exists($this->ProfileImage->small)) {
+                    $this->Json::set('errors.pay_slip_image', [
+                        trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('profile_image')])
+                    ]);
                     return false;
                 }
                 $this->Payload->put('ProfileImage', $this->ProfileImage);
             } else {
-                echo "error ProfileImage";
+                $this->Json::set('errors.profile_image', [
+                    trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('profile_image')])
+                ]);
                 return false;
             }
         }
-
-        return true;
+        return false;
     }
 
     public function handle($request, Closure $next)
