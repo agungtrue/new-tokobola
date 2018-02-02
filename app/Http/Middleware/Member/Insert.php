@@ -157,7 +157,7 @@ class Insert extends BaseMiddleware
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     public function handle($request, Closure $next)
