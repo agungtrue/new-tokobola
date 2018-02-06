@@ -26,6 +26,7 @@ class ImageUploadTest extends TestCase
             $original = '';
             $small = '';
         }
+        dd('ada', env('Storage_Path'));
         Storage::disk('temporary')->assertExists($original);
         Storage::disk('temporary')->assertExists($small);
     }
