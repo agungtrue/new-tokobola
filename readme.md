@@ -1,3 +1,3 @@
 # SUN
 
-[![Build Status](http://jenkins.devops.wolescasts.io/job/kasbondong-sun/badge/icon)](http://jenkins.devops.wolescasts.io/job/kasbondong-sun)
+[![Build Status](http://jenkins.devops.wolescasts.io/buildStatus/icon?job=kasbondong-sun)](http://jenkins.devops.wolescasts.io/job/kasbondong-sun)
