@@ -2,6 +2,15 @@
 
 namespace App\Models;
 
+/**
+ * Relation Models
+ */
+
+use App\Models\Member;
+use App\Models\MemberBank;
+use App\Models\MemberCompany;
+use App\Models\MemberFamily;
+
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
 use Laravel\Passport\HasApiTokens;
@@ -30,4 +39,24 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'user_id', 'id');
+    }
+
+    public function memberBank()
+    {
+        return $this->hasOne(MemberBank::class, 'user_id', 'id');
+    }
+
+    public function memberCompany()
+    {
+        return $this->hasOne(MemberCompany::class, 'user_id', 'id');
+    }
+
+    public function memberFamily()
+    {
+        return $this->hasOne(MemberFamily::class, 'user_id', 'id');
+    }
 }

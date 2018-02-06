@@ -2,24 +2,46 @@
 
 namespace App\Http\Controllers\Member;
 
+use App\Models\User;
 use App\Models\Image;
 use App\Support\Response\Json;
 use App\Http\Controllers\Controller;
+use App\Traits\Browse;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
+    use Browse;
+
     public function get(Request $request)
     {
-        echo 'get';
+        $User = User::with('member')
+        ->with('memberBank')
+        ->with('memberCompany')
+        ->with('memberFamily')
+        ->where(function ($query) use($request) {
+            if (isset($request->ArrQuery->id)) {
+                $query->where('id', $request->ArrQuery->id);
+            }
+        });
+        $Browse = $this->Browse($request, $User);
+        Json::set('data', $Browse);
+        return response()->json(Json::get(), 200);
     }
 
     public function create(Request $request)
     {
         $Model = $request->Payload->all()['Model'];
+        // Create Password
+        $RealPassword = $Model->User->password;
+        $Model->User->password = app('hash')->make($RealPassword);
+        if (Hash::needsRehash($Model->User->password)) {
+            $Model->User->password = app('hash')->make($RealPassword);
+        }
         $Model->User->save();
 
         $Model->Member->user_id = $Model->User->id;

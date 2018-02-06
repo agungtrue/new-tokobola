@@ -14,6 +14,7 @@ class MiddlewareServiceProvider extends ServiceProvider
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'cors' => \Barryvdh\Cors\HandleCors::class,
+        'ArrQuery' => \App\Http\Middleware\QueryRoute::class,
 
         'Member.Insert' => \App\Http\Middleware\Member\Insert::class,
 
