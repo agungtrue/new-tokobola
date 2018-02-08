@@ -14,37 +14,42 @@ use Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Middleware\BaseMiddleware;
 
-class Insert extends BaseMiddleware
+class UpdateMy extends BaseMiddleware
 {
     private function Instantiate()
     {
-        $this->Model->User = new User();
-        $this->Model->Member = new Member();
-        $this->Model->MemberBank = new MemberBank();
-        $this->Model->MemberFamily = new MemberFamily();
-        $this->Model->MemberCompany = new MemberCompany();
-        $this->Model->Loan = new Loan();
-
+        $this->Model->User = $this->_Request->user();
+        $this->Model->Member = Member::find($this->Model->User->id);
+        $this->Model->MemberBank = MemberBank::firstOrNew(['user_id' => $this->Model->User->id]);
+        $this->Model->MemberFamily = MemberFamily::firstOrNew(['user_id' => $this->Model->User->id]);
+        $this->Model->MemberCompany = MemberCompany::firstOrNew(['user_id' => $this->Model->User->id]);
         $this->Model->User->name = $this->_Request->input('name');
-        $this->Model->User->username = $this->_Request->input('username');
-        $this->Model->User->email = $this->_Request->input('email');
-        $this->Model->User->password = $this->_Request->input('password');
-        $this->Model->User->phone_number = $this->_Request->input('phone_number');
-
+        $this->Model->User->mobile_phone_number = $this->_Request->input('mobile_phone_number');
+        $this->Model->Member->phone_number = $this->_Request->input('phone_number');
         $this->Model->Member->idcard_number = $this->_Request->input('idcard_number');
         $this->Model->Member->referrer = $this->_Request->input('referrer');
         $this->Model->Member->gender = $this->_Request->input('gender');
         $this->Model->Member->birth_place = $this->_Request->input('birth_place');
         $this->Model->Member->birth_date = $this->_Request->input('birth_date');
         $this->Model->Member->religion = $this->_Request->input('religion');
-        $this->Model->Member->domicile_phone_number = $this->_Request->input('domicile_phone_number');
+        $this->Model->Member->citizenship = $this->_Request->input('citizenship');
         $this->Model->Member->address = $this->_Request->input('address');
         $this->Model->Member->province = $this->_Request->input('province');
         $this->Model->Member->city = $this->_Request->input('city');
         $this->Model->Member->sub_district = $this->_Request->input('sub_district');
         $this->Model->Member->urban_village = $this->_Request->input('urban_village');
         $this->Model->Member->postal_code = $this->_Request->input('postal_code');
+        $this->Model->Member->neighbourhood = $this->_Request->input('neighbourhood');
+        $this->Model->Member->hamlet = $this->_Request->input('hamlet');
         $this->Model->Member->house_status = $this->_Request->input('house_status');
+        $this->Model->Member->idcard_address = $this->_Request->input('idcard_address');
+        $this->Model->Member->idcard_province = $this->_Request->input('idcard_province');
+        $this->Model->Member->idcard_city = $this->_Request->input('idcard_city');
+        $this->Model->Member->idcard_sub_district = $this->_Request->input('idcard_sub_district');
+        $this->Model->Member->idcard_urban_village = $this->_Request->input('idcard_urban_village');
+        $this->Model->Member->idcard_neighbourhood = $this->_Request->input('idcard_neighbourhood');
+        $this->Model->Member->idcard_hamlet = $this->_Request->input('idcard_hamlet');
+        $this->Model->Member->idcard_postal_code = $this->_Request->input('idcard_postal_code');
         $this->Model->Member->relationship_status = $this->_Request->input('relationship_status');
         $this->Model->Member->last_education = $this->_Request->input('last_education');
         $this->Model->Member->dependents = $this->_Request->input('dependents');
@@ -59,12 +64,12 @@ class Insert extends BaseMiddleware
         $this->Model->Member->monthly_income = $this->_Request->input('monthly_income');
         $this->Model->Member->monthly_expenses = $this->_Request->input('monthly_expenses');
         $this->Model->Member->updated_at = $this->_Request->input('updated_at');
-
         $this->Model->MemberBank->bank = $this->_Request->input('bank');
+        $this->Model->MemberBank->bank_branch = $this->_Request->input('bank_branch');
         $this->Model->MemberBank->bank_account_name = $this->_Request->input('bank_account_name');
         $this->Model->MemberBank->bank_account_number = $this->_Request->input('bank_account_number');
-
         $this->Model->MemberFamily->family_name = $this->_Request->input('family_name');
+        $this->Model->MemberFamily->family_mobile_phone_number = $this->_Request->input('family_mobile_phone_number');
         $this->Model->MemberFamily->family_phone_number = $this->_Request->input('family_phone_number');
         $this->Model->MemberFamily->family_address = $this->_Request->input('family_address');
         $this->Model->MemberFamily->family_province = $this->_Request->input('family_province');
@@ -72,7 +77,8 @@ class Insert extends BaseMiddleware
         $this->Model->MemberFamily->family_sub_district = $this->_Request->input('family_sub_district');
         $this->Model->MemberFamily->family_urban_village = $this->_Request->input('family_urban_village');
         $this->Model->MemberFamily->family_postal_code = $this->_Request->input('family_postal_code');
-
+        $this->Model->MemberFamily->family_neighbourhood = $this->_Request->input('family_neighbourhood');
+        $this->Model->MemberFamily->family_hamlet = $this->_Request->input('family_hamlet');
         $this->Model->MemberCompany->company_name = $this->_Request->input('company_name');
         $this->Model->MemberCompany->company_phone_number = $this->_Request->input('company_phone_number');
         $this->Model->MemberCompany->company_address = $this->_Request->input('company_address');
@@ -81,12 +87,8 @@ class Insert extends BaseMiddleware
         $this->Model->MemberCompany->company_sub_district = $this->_Request->input('company_sub_district');
         $this->Model->MemberCompany->company_urban_village = $this->_Request->input('company_urban_village');
         $this->Model->MemberCompany->company_postal_code = $this->_Request->input('company_postal_code');
-
-        $this->Model->Loan->principal = $this->_Request->input('loan_amount');
-        $this->Model->Loan->reason = $this->_Request->input('reason');
-        $this->Model->Loan->term_type = $this->_Request->input('term_type');
-        $this->Model->Loan->term = $this->_Request->input('term');
-
+        $this->Model->MemberCompany->company_neighbourhood = $this->_Request->input('company_neighbourhood');
+        $this->Model->MemberCompany->company_hamlet = $this->_Request->input('company_hamlet');
         $this->IDCardImage = $this->_Request->input('idcard_image') ? json_decode($this->_Request->input('idcard_image')) : null;
         $this->PaySlipImage = $this->_Request->input('pay_slip_image') ? json_decode($this->_Request->input('pay_slip_image')) : null;
         $this->ProfileImage = $this->_Request->input('profile_image') ? json_decode($this->_Request->input('profile_image')) : null;
@@ -96,8 +98,7 @@ class Insert extends BaseMiddleware
     {
         $validator = Validator::make($this->_Request->all(), [
             'name' => 'required|max:255',
-            'email' => 'required|unique:users|max:255',
-            'password' => 'required|max:255',
+            'mobile_phone_number' => 'required|min:10|max:14',
             'phone_number' => 'required|min:10|max:14',
             'idcard_number' => 'required|min:16|max:16',
             'reason' => 'required',
@@ -105,18 +106,29 @@ class Insert extends BaseMiddleware
             'birth_place' => 'required',
             'birth_date' => 'required',
             'religion' => 'required',
+            'citizenship' => 'required',
             'relationship_status' => 'required',
             'last_education' => 'required',
             'dependents' => 'required',
-            'domicile_phone_number' => 'required|min:10|max:14',
             'address' => 'required',
             'province' => 'required',
             'city' => 'required',
             'sub_district' => 'required',
             'urban_village' => 'required',
             'postal_code' => 'required',
+            'neighbourhood' => 'required',
+            'hamlet' => 'required',
             'house_status' => 'required',
+            'idcard_address' => 'required',
+            'idcard_province' => 'required',
+            'idcard_city' => 'required',
+            'idcard_sub_district' => 'required',
+            'idcard_urban_village' => 'required',
+            'idcard_neighbourhood' => 'required',
+            'idcard_hamlet' => 'required',
+            'idcard_postal_code' => 'required',
             'family_name' => 'required',
+            'family_mobile_phone_number' => 'required',
             'family_phone_number' => 'required',
             'family_address' => 'required',
             'family_province' => 'required',
@@ -124,7 +136,10 @@ class Insert extends BaseMiddleware
             'family_sub_district' => 'required',
             'family_urban_village' => 'required',
             'family_postal_code' => 'required',
+            'family_neighbourhood' => 'required',
+            'family_hamlet' => 'required',
             'bank' => 'required',
+            'bank_branch' => 'required',
             'bank_account_name' => 'required',
             'bank_account_number' => 'required',
             'company_name' => 'required',
@@ -135,16 +150,15 @@ class Insert extends BaseMiddleware
             'company_sub_district' => 'required',
             'company_urban_village' => 'required',
             'company_postal_code' => 'required',
+            'company_neighbourhood' => 'required',
+            'company_hamlet' => 'required',
             'profession' => 'required',
             'work_position' => 'required',
             'work_start_year' => 'required',
             'work_start_month' => 'required',
             'monthly_income' => 'required',
             'monthly_expenses' => 'required',
-            'kpr_installment' => 'required',
-            'loan_amount' => 'required',
-            'term' => 'required',
-            'term_type' => 'required'
+            'kpr_installment' => 'required'
         ]);
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());

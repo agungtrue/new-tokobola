@@ -36,7 +36,7 @@ class MemberForTesting extends Seeder
         $User->name = $email;
         $User->email = $email;
         $User->password = app('hash')->make($this->password);
-        $User->phone_number = '088889181818';
+        $User->mobile_phone_number = '088889181818';
         $User->save();
 
         $Member = new Member();

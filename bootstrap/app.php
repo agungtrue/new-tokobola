@@ -90,9 +90,11 @@ $app->withEloquent();
 |
 */
 
-$app->router->group([
-    'namespace' => 'App\Http\Controllers',
-], function ($router) {
+$app->router->group(['namespace' => 'App\Http\Controllers'], function ($router) {
+    require __DIR__.'/../routes/apiPublic.php';
+});
+
+$app->router->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth']], function ($router) {
     require __DIR__.'/../routes/api.php';
 });
 

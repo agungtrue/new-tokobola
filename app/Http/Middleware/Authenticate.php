@@ -3,9 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Http\Middleware\BaseMiddleware;
 
-class Authenticate
+class Authenticate extends BaseMiddleware
 {
     /**
      * The authentication guard factory instance.
@@ -20,8 +22,9 @@ class Authenticate
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
      */
-    public function __construct(Auth $auth)
+    public function __construct(Auth $auth, Request $request)
     {
+        parent::__construct($request);
         $this->auth = $auth;
     }
 
@@ -36,7 +39,7 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            return response()->json($this->Json::get(), 401);
         }
 
         return $next($request);

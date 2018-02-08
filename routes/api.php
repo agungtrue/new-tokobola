@@ -11,14 +11,11 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
 $router->get('/member', ['uses' => 'Member\MemberController@get', 'middleware' => ['ArrQuery']]);
 $router->get('/member/{query:.+}', ['uses' => 'Member\MemberController@get', 'middleware' => ['ArrQuery']]);
 $router->post('/member', ['uses' => 'Member\MemberController@create', 'middleware' => ['Member.Insert']]);
 $router->put('/member', ['uses' => 'Member\MemberController@update']);
+$router->put('/member/my', ['uses' => 'Member\MemberController@updateMy', 'middleware' => ['Member.UpdateMy']]);
 $router->delete('/member', ['uses' => 'Member\MemberController@delete']);
 
 $router->post('/image', ['uses' => 'Image\ImageController@upload', 'middleware' => ['Image.Upload']]);

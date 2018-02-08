@@ -15,20 +15,30 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigInteger('user_id')->unique();
-            $table->string('idcard_number', 16);
+            $table->string('idcard_number', 16)->nullable()->default(null);
             $table->string('referrer', 255)->nullable()->default(null);
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['male', 'female'])->nullable()->default(null);
             $table->string('birth_place', 255)->nullable()->default(null);
             $table->date('birth_date')->nullable()->default(null);
             $table->enum('religion', ['islam', 'protestan', 'katolik', 'hindu', 'buddha', 'konghucu'])->nullable()->default(null);
-            $table->string('ethnic', 255)->nullable()->default(null);
-            $table->string('domicile_phone_number', 14)->nullable()->default(null);
+            $table->string('citizenship', 255)->nullable()->default(null);
+            $table->string('phone_number', 14)->nullable()->default(null);
             $table->text('address')->nullable()->default(null);
             $table->string('province', 255)->nullable()->default(null);
             $table->string('city', 255)->nullable()->default(null);
             $table->string('sub_district', 255)->nullable()->default(null);
             $table->string('urban_village', 255)->nullable()->default(null);
+            $table->string('neighbourhood', 255)->nullable()->default(null);
+            $table->string('hamlet', 255)->nullable()->default(null);
             $table->string('postal_code', 20)->nullable()->default(null);
+            $table->text('idcard_address')->nullable()->default(null);
+            $table->string('idcard_province', 255)->nullable()->default(null);
+            $table->string('idcard_city', 255)->nullable()->default(null);
+            $table->string('idcard_sub_district', 255)->nullable()->default(null);
+            $table->string('idcard_urban_village', 255)->nullable()->default(null);
+            $table->string('idcard_neighbourhood', 255)->nullable()->default(null);
+            $table->string('idcard_hamlet', 255)->nullable()->default(null);
+            $table->string('idcard_postal_code', 20)->nullable()->default(null);
             $table->string('house_status', 255)->nullable()->default(null);
             $table->string('relationship_status', 255)->nullable()->default(null);
             $table->string('last_education', 255)->nullable()->default(null);

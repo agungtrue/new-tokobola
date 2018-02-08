@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('username', 191)->unique()->nullable()->default(NULL);
             $table->string('email', 191)->unique();
-            $table->string('phone_number', 14);
+            $table->string('mobile_phone_number', 14);
             $table->string('password')->nullable()->default(NULL);
             $table->rememberToken();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

@@ -22,6 +22,8 @@ class CreateMemberCompanyTable extends Migration
             $table->string('company_city', 255)->nullable()->default(null);
             $table->string('company_sub_district', 255)->nullable()->default(null);
             $table->string('company_urban_village', 255)->nullable()->default(null);
+            $table->string('company_neighbourhood', 255)->nullable()->default(null);
+            $table->string('company_hamlet', 255)->nullable()->default(null);
             $table->string('company_postal_code', 20)->nullable()->default(null);
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

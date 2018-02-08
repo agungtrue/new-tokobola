@@ -16,7 +16,12 @@ class MiddlewareServiceProvider extends ServiceProvider
         'cors' => \Barryvdh\Cors\HandleCors::class,
         'ArrQuery' => \App\Http\Middleware\QueryRoute::class,
 
+        'Authentication.Login' => \App\Http\Middleware\Authentication\Login::class,
+
+        'Account.MemberSignUp' => \App\Http\Middleware\Account\MemberSignUp::class,
+
         'Member.Insert' => \App\Http\Middleware\Member\Insert::class,
+        'Member.UpdateMy' => \App\Http\Middleware\Member\UpdateMy::class,
 
         'Image.Upload' => \App\Http\Middleware\Image\Upload::class,
     ];
