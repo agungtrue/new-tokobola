@@ -10,9 +10,10 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
+use App\Support\Response\Json;
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    Json::set('message', 'WELCOME TO SUN API FOR KASBONDONG SYSTEM');
+    return response()->json(Json::get(), 200);
 });
 
 $router->post('/login', ['uses' => 'Authentication\AuthenticationController@login', 'middleware' => ['Authentication.Login']]);
