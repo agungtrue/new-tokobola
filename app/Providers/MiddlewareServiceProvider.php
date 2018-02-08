@@ -23,6 +23,8 @@ class MiddlewareServiceProvider extends ServiceProvider
         'Member.Insert' => \App\Http\Middleware\Member\Insert::class,
         'Member.UpdateMy' => \App\Http\Middleware\Member\UpdateMy::class,
 
+        'Loan.Insert' => \App\Http\Middleware\Loan\Insert::class,
+
         'Image.Upload' => \App\Http\Middleware\Image\Upload::class,
     ];
 
