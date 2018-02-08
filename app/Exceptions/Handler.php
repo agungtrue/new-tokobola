@@ -3,11 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Support\Response\Json;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -43,8 +46,25 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Exception $exception)
     {
-        return parent::render($request, $e);
+        Json::set('exception.name',
+            (new \ReflectionClass($exception))->getShortName()
+        );
+        if($exception instanceof NotFoundHttpException) {
+            Json::set('exception.filelocation', $exception->getFile());
+            Json::set('exception.line', $exception->getLine());
+            return response()->json(Json::get(), 404);
+        } elseif($exception instanceof MethodNotAllowedHttpException) {
+            // method not allowed
+            Json::set('exception.filelocation', $exception->getFile());
+            Json::set('exception.line', $exception->getLine());
+            return response()->json(Json::get(), 405);
+        } else {
+            Json::set('exception.filelocation', $exception->getFile());
+            Json::set('exception.line', $exception->getLine());
+            Json::set('exception.name', get_class($exception));
+            return response()->json(Json::get(), 500);
+        }
     }
 }
