@@ -30,12 +30,12 @@ class Login extends BaseMiddleware
         }
         if (!$this->Model->User = User::where('email', $this->email)->first()) {
             $this->Json::set('errors.email', [
-                trans('validation.invalid_json_format')
+                trans('validation.invalid_email')
             ]);
             return false;
         } elseif (!Hash::check($this->password, $this->Model->User->password)) {
             $this->Json::set('errors.password', [
-                trans('validation.invalid_json_format')
+                trans('validation.invalid_password')
             ]);
             return false;
         }

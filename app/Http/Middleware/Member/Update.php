@@ -14,7 +14,7 @@ use Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Middleware\BaseMiddleware;
 
-class Insert extends BaseMiddleware
+class Update extends BaseMiddleware
 {
     private function Instantiate()
     {
