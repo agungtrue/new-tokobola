@@ -25,7 +25,11 @@ class MemberController extends Controller
         ->with('memberFamily')
         ->where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
-                $query->where('id', $request->ArrQuery->id);
+                if ($request->ArrQuery->id === 'my') {
+                    $query->where('id', $request->user()->id);
+                } else {
+                    $query->where('id', $request->ArrQuery->id);
+                }
             }
         });
         $Browse = $this->Browse($request, $User);

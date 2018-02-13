@@ -18,6 +18,8 @@ $router->put('/member', ['uses' => 'Member\MemberController@update']);
 $router->put('/member/my', ['uses' => 'Member\MemberController@updateMy', 'middleware' => ['Member.UpdateMy']]);
 $router->delete('/member', ['uses' => 'Member\MemberController@delete']);
 
+$router->get('/loan', ['uses' => 'Loan\LoanController@get', 'middleware' => ['ArrQuery']]);
+$router->get('/loan/{query:.+}', ['uses' => 'Loan\LoanController@get', 'middleware' => ['ArrQuery']]);
 $router->post('/loan', ['uses' => 'Loan\LoanController@create', 'middleware' => ['Loan.Insert']]);
 
 $router->post('/image', ['uses' => 'Image\ImageController@upload', 'middleware' => ['Image.Upload']]);
