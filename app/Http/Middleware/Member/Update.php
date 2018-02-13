@@ -100,7 +100,6 @@ class Update extends BaseMiddleware
             'password' => 'required|max:255',
             'phone_number' => 'required|min:10|max:14',
             'idcard_number' => 'required|min:16|max:16',
-            'reason' => 'required',
             'gender' => 'required',
             'birth_place' => 'required',
             'birth_date' => 'required',
