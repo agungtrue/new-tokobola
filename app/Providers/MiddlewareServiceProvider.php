@@ -35,7 +35,7 @@ class MiddlewareServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->routeMiddleware($this->routeMiddleware);
         $this->app->middleware($this->middleware);
+        $this->app->routeMiddleware($this->routeMiddleware);
     }
 }
