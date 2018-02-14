@@ -35,17 +35,12 @@ class LoanController extends Controller
     {
         $Model = $request->Payload->all()['Model'];
 
-        if ($Model->Loan->term_type = 'oncepaid') {
-            $interest_percentage = 0.5;
+        if ($Model->Loan->term_type === 'oncepaid') {
+            $interest_percentage = 1;
             $Model->Loan->interest = $Model->Loan->principal * ($Model->Loan->term * $interest_percentage) / 100;
             $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
         }
-        if ($Model->Loan->term_type = 'oncepaid') {
-            $interest_percentage = 0.5;
-            $Model->Loan->interest = $Model->Loan->principal * ($Model->Loan->term * $interest_percentage) / 100;
-            $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
-        }
-        if ($Model->Loan->term_type = 'installments') {
+        if ($Model->Loan->term_type === 'installments') {
             $interest_percentage = 15;
             $Model->Loan->interest = $Model->Loan->principal * ($Model->Loan->term * $interest_percentage) / 100;
             $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
