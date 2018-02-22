@@ -47,6 +47,9 @@ class QueryRoute extends BaseMiddleware
             if(!array_key_exists('take', $this->ArrQuery)){
                 $this->ArrQuery['take'] = (string)10;
             }
+            if(!array_key_exists('takeAll', $this->ArrQuery)){
+                $this->ArrQuery['takeAll'] = false;
+            }
             if(!array_key_exists('skip', $this->ArrQuery)){
                 $this->ArrQuery['skip'] = (string)0;
             }

@@ -47,6 +47,7 @@ class LoanController extends Controller
         }
 
         $Model->Loan->save();
+        Json::set('data', $Model->Loan);
         return response()->json(Json::get(), 201);
     }
 }

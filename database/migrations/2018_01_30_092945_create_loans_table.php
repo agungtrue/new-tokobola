@@ -24,7 +24,7 @@ class CreateLoansTable extends Migration
             $table->text('reason');
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
             $table->timestamp('created_at')->nullable();
-            $table->timestamp('deleted_at')->nullable()->default(NULL);
+            $table->timestamp('deleted_at')->nullable()->default(null);
         });
     }
 

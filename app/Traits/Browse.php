@@ -10,7 +10,9 @@ trait Browse
             'query' => $request->ArrQuery
         ];
         $ModelForCount = clone $Model;
-        $Model->take($request->ArrQuery->take)->skip($request->ArrQuery->skip);
+        if (!$request->ArrQuery->takeAll) {
+          $Model->take($request->ArrQuery->take)->skip($request->ArrQuery->skip);
+        }
         if (config('app.debug')) {
             $ModelForSQL = clone $Model;
             $Array['debug'] = [

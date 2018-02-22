@@ -14,8 +14,8 @@ class ChangeDefaultColumnsForUserTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('name')->nullable()->default(NULL)->change();
-            $table->string('mobile_phone_number', 14)->nullable()->default(NULL)->change();
+            $table->string('name')->nullable()->default(null)->change();
+            $table->string('mobile_phone_number', 14)->nullable()->default(null)->change();
         });
     }
 
