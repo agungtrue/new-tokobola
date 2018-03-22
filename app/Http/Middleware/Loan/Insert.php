@@ -23,7 +23,6 @@ class Insert extends BaseMiddleware
     private function Validation()
     {
         $validator = Validator::make($this->_Request->all(), [
-            'reason' => 'required',
             'loan_amount' => 'required',
             'term' => 'required',
             'term_type' => 'required'

@@ -97,6 +97,7 @@ class UpdateMy extends BaseMiddleware
         $this->IDCardImage = $this->_Request->input('idcard_image') ? json_decode($this->_Request->input('idcard_image')) : null;
         $this->PaySlipImage = $this->_Request->input('pay_slip_image') ? json_decode($this->_Request->input('pay_slip_image')) : null;
         $this->ProfileImage = $this->_Request->input('profile_image') ? json_decode($this->_Request->input('profile_image')) : null;
+        $this->FamilyCardImage = $this->_Request->input('family_card_image') ? json_decode($this->_Request->input('family_card_image')) : null;
     }
 
     private function Validation()
@@ -219,6 +220,25 @@ class UpdateMy extends BaseMiddleware
             } else {
                 $this->Json::set('errors.profile_image', [
                     trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('profile_image')])
+                ]);
+                return false;
+            }
+        }
+
+        if ($this->FamilyCardImage) {
+            if (isset($this->FamilyCardImage->key) && isset($this->FamilyCardImage->extension)) {
+                $this->FamilyCardImage->original = $this->FamilyCardImage->key . '-original.' . $this->FamilyCardImage->extension;
+                $this->FamilyCardImage->small = $this->FamilyCardImage->key . '-small.' . $this->FamilyCardImage->extension;
+                if (!Storage::disk('temporary')->exists($this->FamilyCardImage->original) || !Storage::disk('temporary')->exists($this->FamilyCardImage->small)) {
+                    $this->Json::set('errors.family_card_image', [
+                        trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('family_card_image')])
+                    ]);
+                    return false;
+                }
+                $this->Payload->put('FamilyCardImage', $this->FamilyCardImage);
+            } else {
+                $this->Json::set('errors.family_card_image', [
+                    trans('validation.invalid_json_format', ['attribute' => $this->transAttribute('family_card_image')])
                 ]);
                 return false;
             }

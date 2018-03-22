@@ -159,6 +159,19 @@ class MemberController extends Controller
             $CollectionImage->save();
             $Model->Member->profile_image = $CollectionImage->id;
         }
+        if (isset($request->Payload->all()['FamilyCardImage']) && $FamilyCardImage = $request->Payload->all()['FamilyCardImage']) {
+            Storage::disk('s3')->put(config('filesystems.disks.s3.ImagesDirectory').$FamilyCardImage->original,
+            Storage::disk('temporary')->get($FamilyCardImage->original), 'public');
+
+            Storage::disk('s3')->put(config('filesystems.disks.s3.ImagesDirectory').$FamilyCardImage->small,
+            Storage::disk('temporary')->get($FamilyCardImage->small), 'public');
+            $CollectionImage = new Image();
+            $CollectionImage->key = $FamilyCardImage->key;
+            $CollectionImage->extension = $FamilyCardImage->extension;
+            $CollectionImage->user_id = $Model->User->id;
+            $CollectionImage->save();
+            $Model->Member->family_card_image = $CollectionImage->id;
+        }
 
         $Model->User->save();
         $Model->Member->save();
