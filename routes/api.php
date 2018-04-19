@@ -23,3 +23,11 @@ $router->get('/loan/{query:.+}', ['uses' => 'Loan\LoanController@get', 'middlewa
 $router->post('/loan', ['uses' => 'Loan\LoanController@create', 'middleware' => ['Loan.Insert']]);
 
 $router->post('/image', ['uses' => 'Image\ImageController@upload', 'middleware' => ['Image.Upload']]);
+
+
+/**
+ * Company
+ */
+$router->get('/company', ['uses' => 'Company\CompanyController@get', 'middleware' => ['ArrQuery']]);
+$router->get('/company/{query:.+}', ['uses' => 'Company\CompanyController@get', 'middleware' => ['ArrQuery']]);
+$router->post('/company', ['uses' => 'Company\CompanyController@create', 'middleware' => ['Company.Insert']]);

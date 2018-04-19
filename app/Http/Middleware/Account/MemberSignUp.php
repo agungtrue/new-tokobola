@@ -3,6 +3,7 @@
 namespace App\Http\Middleware\Account;
 
 use App\Models\User;
+use App\Models\Company;
 use App\Models\Member;
 
 use Closure;
@@ -22,6 +23,8 @@ class MemberSignUp extends BaseMiddleware
         $this->Model->User->email = $this->_Request->input('email');
         $this->Model->User->password = $this->_Request->input('password');
         $this->Model->User->mobile_phone_number = $this->_Request->input('mobile_phone_number');
+
+        $this->Model->Member->company_id = $this->_Request->input('company_id');
     }
 
     private function Validation()
@@ -32,6 +35,9 @@ class MemberSignUp extends BaseMiddleware
         ]);
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());
+            return false;
+        }
+        if ($this->Model->Member->company_id && !Company::where('id', $this->Model->Member->company_id)->first()) {
             return false;
         }
         return true;
