@@ -29,6 +29,7 @@ class UpdateMy extends BaseMiddleware
 
         !$this->_Request->input('phone_number') || $this->Model->Member->phone_number = $this->_Request->input('phone_number');
         !$this->_Request->input('idcard_number') || $this->Model->Member->idcard_number = $this->_Request->input('idcard_number');
+        !$this->_Request->input('npwp_number') || $this->Model->Member->npwp_number = $this->_Request->input('npwp_number');
         !$this->_Request->input('referrer') || $this->Model->Member->referrer = $this->_Request->input('referrer');
         !$this->_Request->input('gender') || $this->Model->Member->gender = $this->_Request->input('gender');
         !$this->_Request->input('birth_place') || $this->Model->Member->birth_place = $this->_Request->input('birth_place');
@@ -107,6 +108,7 @@ class UpdateMy extends BaseMiddleware
             'mobile_phone_number' => 'required|min:10|max:14',
             'phone_number' => 'required|min:10|max:14',
             'idcard_number' => 'required|min:16|max:16',
+            'npwp_number' => 'required|min:16|max:16',
             'gender' => 'required',
             'birth_place' => 'required',
             'birth_date' => 'required',

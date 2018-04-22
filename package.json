@@ -1,6 +1,6 @@
 {
     "name": "sun",
-    "version": "1.0.0",
+    "version": "0.0.2",
     "description": "API",
     "main": "server.js",
     "directories": {
