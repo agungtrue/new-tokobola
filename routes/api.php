@@ -28,6 +28,4 @@ $router->post('/image', ['uses' => 'Image\ImageController@upload', 'middleware' 
 /**
  * Company
  */
-$router->get('/company', ['uses' => 'Company\CompanyController@get', 'middleware' => ['ArrQuery']]);
-$router->get('/company/{query:.+}', ['uses' => 'Company\CompanyController@get', 'middleware' => ['ArrQuery']]);
 $router->post('/company', ['uses' => 'Company\CompanyController@create', 'middleware' => ['Company.Insert']]);
