@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company;
 
-use App\Models\User;
 use App\Models\Company;
+use App\Models\CompanyLoanFormula;
 
 use App\Traits\Browse;
 use App\Traits\Company as CompanyTrait;
@@ -21,7 +21,7 @@ class CompanyController extends Controller
 
     public function get(Request $request)
     {
-        $User = Company::
+        $Company = Company::
         where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
                 if ($request->ArrQuery->id === 'my') {
@@ -34,7 +34,25 @@ class CompanyController extends Controller
                 $query->where('key', $request->ArrQuery->key);
             }
         });
-        $Browse = $this->Browse($request, $User);
+        $Browse = $this->Browse($request, $Company, function ($data) {
+            $companyId = $data->pluck('id');
+
+            $Formula = CompanyLoanFormula::
+                whereIn('company_id', $companyId)
+                ->orWhere('default', true)
+                ->get()
+                ->keyBy('company_id');
+
+            $data->map(function($item) use ($Formula) {
+                if (isset($Formula[$item->id])) {
+                    $item->loan_formula = $Formula[$item->id];
+                } else {
+                    $item->loan_formula = isset($Formula[0]) ? $Formula[0] : null;
+                }
+                return $item;
+            });
+            return $data;
+        });
         Json::set('data', $Browse);
         return response()->json(Json::get(), 200);
     }
