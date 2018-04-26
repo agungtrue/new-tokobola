@@ -8,6 +8,8 @@ use App\Support\Generate\Hash;
 
 trait LoanFormula
 {
+    private $month = 30;
+
     public function interest($principal, $term, $type = 'oncepaid')
     {
         $companyId = [];
@@ -42,6 +44,10 @@ trait LoanFormula
         }
         if ($type === 'installments') {
             $percentage = $term * $Formula->installments['interest'];
+            if (isset($Formula->oncepaid['capped']) && $percentage > $Formula->oncepaid['capped']) {
+                $termInMonth = $term / $this->month;
+                $percentage = $Formula->oncepaid['capped'] * round($termInMonth);
+            }
         }
         return ($principal * $percentage) / 100;
     }
