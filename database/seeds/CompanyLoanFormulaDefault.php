@@ -32,6 +32,7 @@ class CompanyLoanFormulaDefault extends Seeder
             $CompanyLoanFormula->oncepaid = $this->formula->oncepaid;
             $CompanyLoanFormula->installments = $this->formula->installments;
             $CompanyLoanFormula->default = true;
+            $CompanyLoanFormula->company_id = $this->formula->company_id;
             $CompanyLoanFormula->save();
         }
     }
