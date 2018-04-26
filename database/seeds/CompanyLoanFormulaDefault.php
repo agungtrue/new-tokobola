@@ -24,6 +24,7 @@ class CompanyLoanFormulaDefault extends Seeder
                 'interest' => 1
             ],
             'default' => true,
+            'company_id' => 0
         ];
 
         if (CompanyLoanFormula::where('default', true)->count() < 1) {
