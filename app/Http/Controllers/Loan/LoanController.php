@@ -12,6 +12,9 @@ use App\Traits\LoanFormula;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
+// Events
+use App\Events\Loan\Approval as ApprovalEvent;
+
 class LoanController extends Controller
 {
     use Browse, LoanFormula;
@@ -42,6 +45,9 @@ class LoanController extends Controller
         $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
 
         $Model->Loan->save();
+
+        event(new ApprovalEvent($request));
+
         Json::set('data', $Model->Loan);
         return response()->json(Json::get(), 201);
     }

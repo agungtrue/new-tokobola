@@ -19,5 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewUserRegistration' => [
             'App\Listeners\NewUserRegistration\SendNotification',
         ],
+
+        'App\Events\Loan\Approval' => [
+            'App\Listeners\Loan\Approval\SendNotification',
+        ],
     ];
 }
