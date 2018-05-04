@@ -108,7 +108,7 @@ class UpdateMy extends BaseMiddleware
             'mobile_phone_number' => 'required|min:10|max:14',
             'phone_number' => 'required|min:10|max:14',
             'idcard_number' => 'required|min:16|max:16',
-            'npwp_number' => 'required|min:16|max:16',
+            'npwp_number' => 'required|min:15|max:16',
             'gender' => 'required',
             'birth_place' => 'required',
             'birth_date' => 'required',
