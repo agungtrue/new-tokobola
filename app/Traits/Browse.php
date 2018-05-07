@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Traits;
+use Closure;
 
 trait Browse
 {
-    public function Browse($request, $Model)
+    public function Browse($request, $Model, $function = null)
     {
         $Array = [
             'query' => $request->ArrQuery
@@ -20,6 +21,10 @@ trait Browse
             ];
         }
         $data = $Model->get();
+
+        if ($function instanceof Closure) {
+            $data = call_user_func_array($function, [ $data ]);
+        }
 
         $Array['total'] = $ModelForCount->count();
         if ((isset($request->ArrQuery->set)) && $request->ArrQuery->set === 'first') {

@@ -28,3 +28,7 @@ $router->get('/districts', ['uses' => 'Administrative\AdministrativeController@d
 $router->get('/districts/{query:.+}', ['uses' => 'Administrative\AdministrativeController@districts', 'middleware' => ['ArrQuery']]);
 $router->get('/villages', ['uses' => 'Administrative\AdministrativeController@villages', 'middleware' => ['ArrQuery']]);
 $router->get('/villages/{query:.+}', ['uses' => 'Administrative\AdministrativeController@villages', 'middleware' => ['ArrQuery']]);
+
+// Company
+$router->get('/company', ['uses' => 'Company\CompanyController@get', 'middleware' => ['ArrQuery']]);
+$router->get('/company/{query:.+}', ['uses' => 'Company\CompanyController@get', 'middleware' => ['ArrQuery']]);

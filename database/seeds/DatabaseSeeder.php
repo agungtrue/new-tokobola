@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
             // only for testing
             $this->call('MemberForTesting');
         }
+
+        $this->call('CompanyLoanFormulaDefault');
     }
 }
