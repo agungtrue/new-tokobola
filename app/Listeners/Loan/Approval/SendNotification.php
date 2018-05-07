@@ -40,11 +40,15 @@ class SendNotification
                         'interest' => $event->Model->Loan->interest,
                         'amount' => $event->Model->Loan->amount,
                         'termInfoType' => $event->Model->Loan->term_type === 'oncepaid' ? 'Sekali Bayar' : 'Cicilan',
-                        'termInfoDate' => $event->Model->Loan->term . ' Hari'
+                        'termInfoDate' => $event->Model->Loan->term . ' Hari',
+                        'term' => $event->Model->Loan->term,
+                        'term_type' => $event->Model->Loan->term_type
                     ]
                 ]
             ]
         ];
+
+        dd($mailToCS);
 
         Courier::send($mailToCS);
     }
