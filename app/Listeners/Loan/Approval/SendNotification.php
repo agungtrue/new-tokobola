@@ -48,8 +48,6 @@ class SendNotification
             ]
         ];
 
-        dd($mailToCS);
-
         Courier::send($mailToCS);
     }
 }
