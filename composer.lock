@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "debc4c23a2cd79a435e128eec7644443",
+    "content-hash": "ad86e7a13e30ddc66dbad1c75c5d7b72",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1830,16 +1830,16 @@
         },
         {
             "name": "illuminate/redis",
-            "version": "v5.5.28",
+            "version": "v5.5.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/redis.git",
-                "reference": "2edc2211604ef9c4b182185fea86a1442b5a9326"
+                "reference": "ed47699281197ab84617b22d98028d7c667646d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/redis/zipball/2edc2211604ef9c4b182185fea86a1442b5a9326",
-                "reference": "2edc2211604ef9c4b182185fea86a1442b5a9326",
+                "url": "https://api.github.com/repos/illuminate/redis/zipball/ed47699281197ab84617b22d98028d7c667646d5",
+                "reference": "ed47699281197ab84617b22d98028d7c667646d5",
                 "shasum": ""
             },
             "require": {
@@ -1871,7 +1871,7 @@
             ],
             "description": "The Illuminate Redis package.",
             "homepage": "https://laravel.com",
-            "time": "2017-11-21T13:35:42+00:00"
+            "time": "2018-01-01T01:48:51+00:00"
         },
         {
             "name": "illuminate/session",

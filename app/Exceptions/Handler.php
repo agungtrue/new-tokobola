@@ -64,6 +64,7 @@ class Handler extends ExceptionHandler
             Json::set('exception.filelocation', $exception->getFile());
             Json::set('exception.line', $exception->getLine());
             Json::set('exception.name', get_class($exception));
+            Json::set('exception.message', $exception->getMessage());
             return response()->json(Json::get(), 500);
         }
     }

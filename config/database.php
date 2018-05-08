@@ -86,7 +86,7 @@ return [
             'username' => env('DB_MONGODB_USERNAME'),
             'password' => env('DB_MONGODB_PASSWORD'),
             'options'  => [
-                'database' => 'admin' // sets the authentication database required by mongo 3
+                'database' =>  env('DB_MONGODB_AUTH_DATABASE', 'admin') // sets the authentication database required by mongo 3
             ]
         ],
 
@@ -120,7 +120,7 @@ return [
 
         'client' => 'predis',
 
-        'default' => [
+        'redis_system' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),

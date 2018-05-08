@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
+// Events
+use App\Events\NewUserRegistration;
+
 class AccountController extends Controller
 {
     public function memberSignUp(Request $request)
@@ -27,6 +30,9 @@ class AccountController extends Controller
 
         $Model->Member->user_id = $Model->User->id;
         $Model->Member->save();
+
+        // PUSH EVENT
+        event(new NewUserRegistration($request));
 
         Json::set('data', [
             'email' => $Model->User->email,

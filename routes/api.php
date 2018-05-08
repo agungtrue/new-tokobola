@@ -23,3 +23,9 @@ $router->get('/loan/{query:.+}', ['uses' => 'Loan\LoanController@get', 'middlewa
 $router->post('/loan', ['uses' => 'Loan\LoanController@create', 'middleware' => ['Loan.Insert']]);
 
 $router->post('/image', ['uses' => 'Image\ImageController@upload', 'middleware' => ['Image.Upload']]);
+
+
+/**
+ * Company
+ */
+$router->post('/company', ['uses' => 'Company\CompanyController@create', 'middleware' => ['Company.Insert']]);
