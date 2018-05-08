@@ -44,11 +44,12 @@ trait LoanFormula
         }
         if ($type === 'installments') {
             $percentage = $term * $Formula->installments['interest'];
-            if (isset($Formula->oncepaid['capped']) && $percentage > $Formula->oncepaid['capped']) {
+            if (isset($Formula->installments['capped']) && $percentage > $Formula->installments['capped']) {
                 $termInMonth = $term / $this->month;
-                $percentage = $Formula->oncepaid['capped'] * round($termInMonth);
+                $percentage = $Formula->installments['capped'] * round($termInMonth);
             }
         }
+
         return ($principal * $percentage) / 100;
     }
 }
