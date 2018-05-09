@@ -67,7 +67,7 @@ return [
 
         'temporary' => [
             'driver' => 'local',
-            'root' => env('Storage_Path').'.tmp/'
+            'root' => storage_path('.tmp')
         ],
 
     ],

@@ -18,11 +18,6 @@ use App\Http\Controllers\Controller;
 
 class ImageController extends Controller
 {
-    private function local_storage_path($path)
-    {
-        return env('Storage_Path').$path.'/';
-    }
-
     public function upload(Request $request)
     {
         $Image = $request->Payload->all()['Image'];
@@ -33,13 +28,13 @@ class ImageController extends Controller
         $KeyName = GenerateKey::Random();
         $Name = $KeyName . '-original.' . $ExtensionImage;
         $NameSmall = $KeyName . '-small.' . $ExtensionImage;
-        $Image->move($this->local_storage_path('.tmp'), $Name);
+        $Image->move(Storage::disk('temporary')->getAdapter()->getPathPrefix(), $Name);
 
         $img = Image::make(Storage::disk('temporary')->get($Name));
         $img->fit(300, 300, function ($constraint) {
             $constraint->upsize();
         });
-        $img->save($this->local_storage_path('.tmp') . $NameSmall);
+        $img->save(Storage::disk('temporary')->getAdapter()->getPathPrefix() . $NameSmall);
 
         Json::set('data', [
             'key' => $KeyName,

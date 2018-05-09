@@ -59,6 +59,7 @@ $app->singleton(
 
 $app->configure('cors');
 $app->configure('auth');
+$app->configure('filesystems');
 
 $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);

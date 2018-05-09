@@ -17,6 +17,38 @@ class MemberController extends Controller
 {
     use Browse;
 
+    private function setMemberImage($data, $ImagesData) {
+        $Path = config('filesystems.disks.s3.host') . config('filesystems.disks.s3.ImagesDirectory');
+
+        $ImagesList = [
+            'idcard' => 'idcard_image',
+            'pay_slip' => 'pay_slip_image',
+            'family_card' => 'family_card_image',
+            'profile' => 'profile_image'
+        ];
+
+        $data->map(function($item) use ($ImagesData, $ImagesList, $Path) {
+            $images = [];
+            foreach ($ImagesList as $key => $imageValue) {
+                if (isset($item->member) && isset($item->member->{$imageValue}) && isset($ImagesData[$item->member->{$imageValue}])) {
+                    $Image = $ImagesData[$item->member->{$imageValue}];
+                    $images[$key] = [
+                        'id' => $Image->_id,
+                        'small' => [
+                            'url' => $Path . $Image->key . '-small.' . $Image->extension
+                        ],
+                        'original' => [
+                            'url' => $Path . $Image->key . '-original.' . $Image->extension
+                        ]
+                    ];
+                }
+            }
+            $item->member->images = $images;
+            return $item;
+        });
+        return $data;
+    }
+
     public function get(Request $request)
     {
         $User = User::with('member')
@@ -32,7 +64,17 @@ class MemberController extends Controller
                 }
             }
         });
-        $Browse = $this->Browse($request, $User);
+        $Browse = $this->Browse($request, $User, function ($data) {
+            $Images = collect([]);
+            $AllImages = $Images
+                ->concat($data->pluck('member.idcard_image')->toArray())
+                ->concat($data->pluck('member.pay_slip_image')->toArray())
+                ->concat($data->pluck('member.family_card_image')->toArray())
+                ->concat($data->pluck('member.profile_image')->toArray());
+            $ImagesData = Image::whereIn('_id', $AllImages->toArray())->get();
+            $this->setMemberImage($data, $ImagesData->keyBy('_id'));
+            return $data;
+        });
         Json::set('data', $Browse);
         return response()->json(Json::get(), 200);
     }
