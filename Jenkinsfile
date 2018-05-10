@@ -1,20 +1,13 @@
-pipeline {
-    agent any
+#!/usr/bin/env groovy
 
-    stages {
-        stage('Build') {
-            steps {
-                sh "pwd"
-                // echo "Downloading dependencies"
-                // checkout scm
-                //
-                // sh "composer install"
-            }
+node('master') {
+    stage('build') {
+        try {
+            sh "cd /var/lib/jenkins/workspace/"
+        } catch {
+
+        } finaly {
+
         }
-        // stage('Test') {
-        //     steps {
-        //         // sh "./vendor/bin/phpunit"
-        //     }
-        // }
     }
 }
