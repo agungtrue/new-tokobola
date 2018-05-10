@@ -1,20 +1,19 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
+                pwd
+                // echo "Downloading dependencies"
+                // checkout scm
+                //
+                // sh "composer install"
             }
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                // sh "./vendor/bin/phpunit"
             }
         }
     }
