@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
 
     stages {
         stage('Build') {
@@ -11,10 +11,10 @@ pipeline {
                 // sh "composer install"
             }
         }
-        stage('Test') {
-            steps {
-                // sh "./vendor/bin/phpunit"
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         // sh "./vendor/bin/phpunit"
+        //     }
+        // }
     }
 }
