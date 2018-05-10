@@ -5,9 +5,9 @@ node('master') {
         try {
             sh "cd /var/lib/jenkins/workspace/"
         } catch {
-
+            sh "cd /var/lib/jenkins/workspace/"
         } finaly {
-
+            sh "cd /var/lib/jenkins/workspace/"
         }
     }
 }
