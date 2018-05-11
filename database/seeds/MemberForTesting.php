@@ -23,10 +23,12 @@ class MemberForTesting extends Seeder
      */
     public function run()
     {
-        $Users = User::whereIn('email', $this->emails)->get();
+        $Users = User::whereIn('email', $this->emails)->get()->keyBy('email');
         if ($Users->count() < 1) {
             foreach ($this->emails as $email) {
-                $this->createMemberAccount($email);
+                if (!isset($Users['memberone@test.test'])) {
+                    $this->createMemberAccount($email);
+                }
             }
         }
     }
