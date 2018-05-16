@@ -24,11 +24,7 @@ class CompanyController extends Controller
         $Company = Company::
         where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
-                if ($request->ArrQuery->id === 'my') {
-                    $query->where('id', $request->user()->id);
-                } else {
-                    $query->where('id', $request->ArrQuery->id);
-                }
+                $query->where('id', $request->ArrQuery->id);
             }
             if (isset($request->ArrQuery->key)) {
                 $query->where('key', $request->ArrQuery->key);
@@ -36,7 +32,6 @@ class CompanyController extends Controller
         });
         $Browse = $this->Browse($request, $Company, function ($data) {
             $companyId = $data->pluck('id');
-
             $Formula = CompanyLoanFormula::
                 whereIn('company_id', $companyId)
                 ->orWhere('default', true)

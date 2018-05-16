@@ -23,6 +23,10 @@ class LoanController extends Controller
     {
         $Loan = Loan::
         where(function ($query) use($request) {
+            if (isset($request->ArrQuery->id)) {
+                $query->where('id', $request->ArrQuery->id);
+            }
+
             if (isset($request->ArrQuery->user_id)) {
                 if ($request->ArrQuery->user_id === 'my') {
                     $query->where('user_id', $request->user()->id);
