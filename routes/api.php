@@ -11,6 +11,9 @@
 |
 */
 
+$router->get('/user', ['uses' => 'User\UserController@get', 'middleware' => ['ArrQuery']]);
+$router->get('/user/{query:.+}', ['uses' => 'User\UserController@get', 'middleware' => ['ArrQuery']]);
+
 $router->get('/member', ['uses' => 'Member\MemberController@get', 'middleware' => ['ArrQuery']]);
 $router->get('/member/{query:.+}', ['uses' => 'Member\MemberController@get', 'middleware' => ['ArrQuery']]);
 $router->post('/member', ['uses' => 'Member\MemberController@create', 'middleware' => ['Member.Insert']]);
