@@ -63,6 +63,38 @@ class MemberController extends Controller
                     $query->where('id', $request->ArrQuery->id);
                 }
             }
+            if (isset($request->ArrQuery->members)) {
+                    $query->whereHas('member', function ($query) use($request) {
+                        $query->where('user_id', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('idcard_number', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('npwp_number', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('referrer', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('gender', 'like', $request->ArrQuery->members . '%')
+                              ->orWhere('birth_place', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('birth_date', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('religion', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('citizenship', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('phone_number', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('address', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('province', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('city', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('sub_district', 'like', '%' . $request->ArrQuery->members . '%');
+                    });
+            }
+
+            if (isset($request->ArrQuery->search)) {
+                $query->where('id', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('name', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('username', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('email', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('mobile_phone_number', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('password', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('remember_token', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('updated_at', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('created_at', 'like', '%' . $request->ArrQuery->search . '%')
+                      ->orWhere('deleted_at', 'like', '%' . $request->ArrQuery->search . '%');
+            }
+
         });
         $Browse = $this->Browse($request, $User, function ($data) {
             $Images = collect([]);

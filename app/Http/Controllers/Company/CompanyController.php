@@ -21,14 +21,31 @@ class CompanyController extends Controller
 
     public function get(Request $request)
     {
-        $Company = Company::
-        where(function ($query) use($request) {
+        $Company = Company::with('member')
+        ->where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
                 $query->where('id', $request->ArrQuery->id);
             }
             if (isset($request->ArrQuery->key)) {
                 $query->where('key', $request->ArrQuery->key);
             }
+
+            if (isset($request->ArrQuery->companies)) {
+                    $query->where('id', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('key', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('name', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('phone_number', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('address', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('province', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('city', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('updated_at', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('created_at', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('deleted_at', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhereHas('member', function ($query) use($request) {
+                        $query->where('user_id', 'like', '%' . $request->ArrQuery->companies . '%');
+                    });
+            }
+
         });
         $Browse = $this->Browse($request, $Company, function ($data) {
             $companyId = $data->pluck('id');
