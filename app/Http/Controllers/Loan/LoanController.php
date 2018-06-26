@@ -38,7 +38,7 @@ class LoanController extends Controller
 
             if (isset($request->ArrQuery->loans)) {
                     $query->where('id', 'like', '%' . $request->ArrQuery->loans . '%')
-                          ->orwhere('term_type', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->Userorwhere('term_type', 'like', '%' . $request->ArrQuery->loans . '%')
                           ->orwhere('term', 'like', '%' . $request->ArrQuery->loans . '%')
                           ->orwhere('principal', 'like', '%' . $request->ArrQuery->loans . '%')
                           ->orwhere('interest', 'like', '%' . $request->ArrQuery->loans . '%')
@@ -74,5 +74,11 @@ class LoanController extends Controller
 
         Json::set('data', $Model->Loan);
         return response()->json(Json::get(), 201);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $Loan = Loan::find($id);
+        $Loan->delete();
     }
 }

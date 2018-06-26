@@ -187,7 +187,14 @@ class MemberController extends Controller
 
     public function update(Request $request)
     {
-        echo 'update';
+        $User = User::where('id', $request->name)
+                    // find(1)
+                    // ->where('id', 1)
+                    // ->where('name', $request->name)
+                    // ->where('mobile_phone_number', $request->mobile_phone_number)
+                    ->update([]);
+        // echo 'update';
+        dd($request->name);
     }
 
     public function updateMy(Request $request)
@@ -255,8 +262,9 @@ class MemberController extends Controller
         return response()->json(Json::get(), 201);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $id)
     {
-        echo 'delete';
+        $User = User::find($id);
+        $User->delete();
     }
 }

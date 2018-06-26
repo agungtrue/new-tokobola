@@ -89,8 +89,9 @@ class CompanyController extends Controller
         return response()->json(Json::get(), 201);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $id)
     {
-        echo 'delete';
+        $Company = Company::find($id);
+        $Company->delete();
     }
 }
