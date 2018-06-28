@@ -21,4 +21,9 @@ class Company extends Model
     ];
 
     public $timestamps = false;
+
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'company_id', 'id');
+    }
 }

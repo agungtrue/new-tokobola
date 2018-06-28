@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Loan;
 
 use App\Models\Loan;
+use App\Models\User;
 use App\Support\Response\Json;
 use App\Http\Controllers\Controller;
 
@@ -21,8 +22,8 @@ class LoanController extends Controller
 
     public function get(Request $request)
     {
-        $Loan = Loan::
-        where(function ($query) use($request) {
+        $Loan = Loan::with('user')
+        ->where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
                 $query->where('id', $request->ArrQuery->id);
             }
@@ -33,6 +34,25 @@ class LoanController extends Controller
                 } else {
                     $query->where('user_id', $request->ArrQuery->user_id);
                 }
+            }
+
+            if (isset($request->ArrQuery->loans)) {
+                    $query->where('id', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->Userorwhere('term_type', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('term', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('principal', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('interest', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('amount', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('reason', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('status', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('payment_status', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('due_date', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('updated_at', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('created_at', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhereHas('user', function ($query) use($request) {
+                        $query->where('name', 'like', '%' . $request->ArrQuery->loans . '%')
+                              ->orWhere('username', 'like', '%' . $request->ArrQuery->loans . '%');
+                    });
             }
         });
         $Browse = $this->Browse($request, $Loan);
@@ -54,5 +74,11 @@ class LoanController extends Controller
 
         Json::set('data', $Model->Loan);
         return response()->json(Json::get(), 201);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $Loan = Loan::find($id);
+        $Loan->delete();
     }
 }
