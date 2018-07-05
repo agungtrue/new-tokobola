@@ -79,9 +79,20 @@ class CompanyController extends Controller
         return response()->json(Json::get(), 201);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        echo 'update';
+        $Company = Company::find($id);
+        $Company->name = $request->name;
+        $Company->phone_number = $request->phone_number;
+        $Company->address = $request->address;
+        $Company->province = $request->province;
+        $Company->city = $request->city;
+
+        $Company->save();
+
+        Json::set('data', $Company);
+        return response()->json(Json::get(), 201);
+
     }
 
     public function updateMy(Request $request)

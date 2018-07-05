@@ -55,6 +55,7 @@ class LoanController extends Controller
                     });
             }
         });
+
         $Browse = $this->Browse($request, $Loan);
         Json::set('data', $Browse);
         return response()->json(Json::get(), 200);
@@ -64,16 +65,39 @@ class LoanController extends Controller
     {
         $this->request = $request;
         $Model = $request->Payload->all()['Model'];
-
-        $Model->Loan->interest = $this->interest($Model->Loan->principal, $Model->Loan->term, $Model->Loan->term_type);
-        $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
-
+        //
+        // $Model->Loan->interest = $this->interest($Model->Loan->principal, $Model->Loan->term, $Model->Loan->term_type);
+        // $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
+        // dd($Model->Loan->user_id);
         $Model->Loan->save();
 
         event(new ApprovalEvent($request));
 
         Json::set('data', $Model->Loan);
         return response()->json(Json::get(), 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $Loan = Loan::with('user')
+                    ->find($id);
+        // $Loan->user->name = $request->name;
+        // $Loan->user->username = $request->username;
+        $Loan->term_type = $request->term_type;
+        $Loan->term = $request->term;
+        $Loan->principal = $request->principal;
+        $Loan->interest = $request->interest;
+        $Loan->amount = $request->amount;
+        $Loan->reason = $request->reason;
+        $Loan->status = $request->status;
+        $Loan->payment_status = $request->payment_status;
+        // $Loan->due_date = $request->due_date;
+
+        $Loan->save();
+
+        Json::set('data', $Loan);
+        return response()->json(Json::get(), 201);
+
     }
 
     public function delete(Request $request, $id)

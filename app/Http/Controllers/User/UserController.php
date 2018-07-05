@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\User;
 
 use App\Models\User;
 
@@ -34,5 +34,14 @@ class UserController extends Controller
         });
         Json::set('data', $Browse);
         return response()->json(Json::get(), 200);
+    }
+
+    public function create(Request $request)
+    {
+        $this->Model = $request->Payload->all()['Model'];
+        $User = $this->Model->User;
+        $User->save();
+        Json::set('data', $User);
+        return response()->json(Json::get(), 201);
     }
 }

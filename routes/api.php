@@ -13,19 +13,21 @@
 
 $router->get('/user', ['uses' => 'User\UserController@get', 'middleware' => ['ArrQuery']]);
 $router->get('/user/{query:.+}', ['uses' => 'User\UserController@get', 'middleware' => ['ArrQuery']]);
+$router->post('/user', ['uses' => 'User\UserController@create', 'middleware' => ['User.Insert']]);
 // $router->put('/user', ['uses' => 'Member\MemberController@update']);
 
 
 $router->get('/member', ['uses' => 'Member\MemberController@get', 'middleware' => ['ArrQuery']]);
 $router->get('/member/{query:.+}', ['uses' => 'Member\MemberController@get', 'middleware' => ['ArrQuery']]);
 $router->post('/member', ['uses' => 'Member\MemberController@create', 'middleware' => ['Member.Insert']]);
-$router->put('/member', ['uses' => 'Member\MemberController@update']);
+$router->put('/member/id/{id}', ['uses' => 'Member\MemberController@update']);
 $router->put('/member/my', ['uses' => 'Member\MemberController@updateMy', 'middleware' => ['Member.UpdateMy']]);
 $router->delete('/member/id/{id}', ['uses' => 'Member\MemberController@delete']);
 
 $router->get('/loan', ['uses' => 'Loan\LoanController@get', 'middleware' => ['ArrQuery']]);
 $router->get('/loan/{query:.+}', ['uses' => 'Loan\LoanController@get', 'middleware' => ['ArrQuery']]);
 $router->post('/loan', ['uses' => 'Loan\LoanController@create', 'middleware' => ['Loan.Insert']]);
+$router->put('/loan/id/{id}', ['uses' => 'Loan\LoanController@update']);
 $router->delete('/loan/id/{id}', ['uses' => 'Loan\LoanController@delete']);
 
 
@@ -37,4 +39,4 @@ $router->post('/image', ['uses' => 'Image\ImageController@upload', 'middleware' 
  */
 $router->post('/company', ['uses' => 'Company\CompanyController@create', 'middleware' => ['Company.Insert']]);
 $router->delete('/company/id/{id}', ['uses' => 'Company\CompanyController@delete']);
-$router->put('/company', ['uses' => 'Company\CompanyController@update']);
+$router->put('/company/id/{id}', ['uses' => 'Company\CompanyController@update']);

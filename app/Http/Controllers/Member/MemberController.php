@@ -114,6 +114,7 @@ class MemberController extends Controller
     public function create(Request $request)
     {
         $Model = $request->Payload->all()['Model'];
+        // dd($Model);
         // Create Password
         $RealPassword = $Model->User->password;
         $Model->User->password = app('hash')->make($RealPassword);
@@ -187,14 +188,16 @@ class MemberController extends Controller
 
     public function update(Request $request)
     {
-        $User = User::where('id', $request->name)
-                    // find(1)
-                    // ->where('id', 1)
-                    // ->where('name', $request->name)
-                    // ->where('mobile_phone_number', $request->mobile_phone_number)
-                    ->update([]);
-        // echo 'update';
-        dd($request->name);
+        // $Model = $request->Payload->all()['Model'];
+        //
+        // $Model->User->save();
+        // $Model->Member->save();
+        // $Model->MemberBank->save();
+        // $Model->MemberFamily->save();
+        // $Model->MemberCompany->save();
+        // return response()->json(Json::get(), 201);
+
+        echo 'update';
     }
 
     public function updateMy(Request $request)
