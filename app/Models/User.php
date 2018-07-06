@@ -42,7 +42,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function member()
     {
-        return $this->hasOne(Member::class, 'user_id', 'id');
+        return $this->hasOne(Member::class, 'user_id', 'id')
+        ->with('province')
+        ->with('city')
+        ->with('sub_district')
+        ->with('urban_village')
+        ->with('idcard_province')
+        ->with('idcard_city')
+        ->with('idcard_sub_district')
+        ->with('idcard_urban_village');
     }
 
     public function memberBank()
@@ -57,6 +65,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function memberFamily()
     {
-        return $this->hasOne(MemberFamily::class, 'user_id', 'id');
+        return $this->hasOne(MemberFamily::class, 'user_id', 'id')
+        ->with('family_province')
+        ->with('family_city')
+        ->with('family_sub_district')
+        ->with('family_urban_village');
     }
 }

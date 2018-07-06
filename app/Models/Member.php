@@ -58,4 +58,44 @@ class Member extends Model
     {
         return $this->hasOne(Company::class, 'id', 'company_id');
     }
+
+    public function province()
+    {
+        return $this->hasOne(Administrative\Province::class, 'id', 'province')->select('id', 'name');
+    }
+
+    public function city()
+    {
+        return $this->hasOne(Administrative\Regency::class, 'id', 'city')->select('id', 'name');
+    }
+
+    public function sub_district()
+    {
+        return $this->hasOne(Administrative\District::class, 'id', 'sub_district')->select('id', 'name');
+    }
+
+    public function urban_village()
+    {
+        return $this->hasOne(Administrative\Village::class, 'id', 'urban_village')->select('id', 'name');
+    }
+
+    public function idcard_province()
+    {
+        return $this->hasOne(Administrative\Province::class, 'id', 'idcard_province')->select('id', 'name');
+    }
+
+    public function idcard_city()
+    {
+        return $this->hasOne(Administrative\Regency::class, 'id', 'idcard_city')->select('id', 'name');
+    }
+
+    public function idcard_sub_district()
+    {
+        return $this->hasOne(Administrative\District::class, 'id', 'idcard_sub_district')->select('id', 'name');
+    }
+
+    public function idcard_urban_village()
+    {
+        return $this->hasOne(Administrative\Village::class, 'id', 'idcard_urban_village')->select('id', 'name');
+    }
 }
