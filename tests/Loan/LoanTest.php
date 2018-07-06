@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Storage;
 
 class LoanTest extends TestCase
 {
-    /** @test **/
     public function loanOncePaid()
     {
         $user = User::where('email', 'memberone@test.test')->first();
@@ -22,7 +21,6 @@ class LoanTest extends TestCase
         $this->assertEquals(201, $response->status());
     }
 
-    /** @test **/
     public function loanOnceInstallments()
     {
         $user = User::where('email', 'memberone@test.test')->first();
