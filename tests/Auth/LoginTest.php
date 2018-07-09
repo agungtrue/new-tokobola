@@ -10,7 +10,6 @@ class LoginTest extends TestCase
     /** @test **/
     public function login()
     {
-
         $response = $this->call('POST', '/login', [
             'email' => 'memberone@test.test',
             'password' => 'Testing123'

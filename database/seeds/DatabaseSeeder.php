@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (config('app.env') === 'testing') {
+        if (config('app.env') === 'testing' || config('app.env') === 'development') {
             // only for testing
             $this->call('MemberForTesting');
         }

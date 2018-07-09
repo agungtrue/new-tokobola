@@ -21,22 +21,34 @@ class CompanyController extends Controller
 
     public function get(Request $request)
     {
-        $Company = Company::
-        where(function ($query) use($request) {
+        $Company = Company::with('member')
+        ->where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
-                if ($request->ArrQuery->id === 'my') {
-                    $query->where('id', $request->user()->id);
-                } else {
-                    $query->where('id', $request->ArrQuery->id);
-                }
+                $query->where('id', $request->ArrQuery->id);
             }
             if (isset($request->ArrQuery->key)) {
                 $query->where('key', $request->ArrQuery->key);
             }
+
+            if (isset($request->ArrQuery->companies)) {
+                    $query->where('id', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('key', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('name', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('phone_number', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('address', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('province', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('city', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('updated_at', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('created_at', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhere('deleted_at', 'like', '%' . $request->ArrQuery->companies . '%')
+                          ->orwhereHas('member', function ($query) use($request) {
+                        $query->where('user_id', 'like', '%' . $request->ArrQuery->companies . '%');
+                    });
+            }
+
         });
         $Browse = $this->Browse($request, $Company, function ($data) {
             $companyId = $data->pluck('id');
-
             $Formula = CompanyLoanFormula::
                 whereIn('company_id', $companyId)
                 ->orWhere('default', true)
@@ -67,9 +79,20 @@ class CompanyController extends Controller
         return response()->json(Json::get(), 201);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        echo 'update';
+        $Company = Company::find($id);
+        $Company->name = $request->name;
+        $Company->phone_number = $request->phone_number;
+        $Company->address = $request->address;
+        $Company->province = $request->province;
+        $Company->city = $request->city;
+
+        $Company->save();
+
+        Json::set('data', $Company);
+        return response()->json(Json::get(), 201);
+
     }
 
     public function updateMy(Request $request)
@@ -77,8 +100,9 @@ class CompanyController extends Controller
         return response()->json(Json::get(), 201);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $id)
     {
-        echo 'delete';
+        $Company = Company::find($id);
+        $Company->delete();
     }
 }
