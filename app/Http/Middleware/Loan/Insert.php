@@ -14,7 +14,7 @@ class Insert extends BaseMiddleware
     {
         $this->Model->Loan = new Loan();
 
-        $this->Model->Loan->user_id = $this->_Request->user()->id;
+        // $this->Model->Loan->user_id = $this->_Request->user()->id;
         $this->Model->Loan->user_id = $this->_Request->input('user_id');
         $this->Model->Loan->amount = $this->_Request->input('amount');
         $this->Model->Loan->reason = $this->_Request->input('reason');

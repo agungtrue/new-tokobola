@@ -14,6 +14,7 @@
 $router->get('/user', ['uses' => 'User\UserController@get', 'middleware' => ['ArrQuery']]);
 $router->get('/user/{query:.+}', ['uses' => 'User\UserController@get', 'middleware' => ['ArrQuery']]);
 $router->post('/user', ['uses' => 'User\UserController@create', 'middleware' => ['User.Insert']]);
+$router->put('/user/id/{id}', ['uses' => 'User\UserController@update']);
 // $router->put('/user', ['uses' => 'Member\MemberController@update']);
 
 

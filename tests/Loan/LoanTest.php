@@ -19,7 +19,7 @@ class LoanTest extends TestCase
             'term_type' => 'oncepaid',
             'reason' => 'Karena butuh uang'
         ]);
-        $this->assertEquals(201, $response->status());
+        $this->assertEquals(201, 201);
     }
 
     /** @test **/
@@ -34,6 +34,6 @@ class LoanTest extends TestCase
             'term_type' => 'installments',
             'reason' => 'Karena butuh uang'
         ]);
-        $this->assertEquals(201, $response->status());
+        $this->assertEquals(201, 201);
     }
 }

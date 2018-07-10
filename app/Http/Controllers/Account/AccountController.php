@@ -43,4 +43,23 @@ class AccountController extends Controller
         ]);
         return response()->json(Json::get(), 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $User = User::find($id);
+        // $User->user->name = $request->name;
+        // $User->user->username = $request->username;
+        $User->name = $request->name;
+        // dd($request->name);
+        $User->email = $request->email;
+        $User->username = $request->username;
+        $User->mobile_phone_number = $request->mobile_phone_number;
+        // $User->amount = $request->amount;
+    
+        $User->save();
+
+        Json::set('data', $User);
+        return response()->json(Json::get(), 201);
+
+    }
 }

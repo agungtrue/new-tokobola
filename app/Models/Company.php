@@ -10,12 +10,12 @@ class Company extends Model
 
     protected $fillable = [
         'id',
-    	'key',
-    	'name',
-    	'phone_number',
-    	'address',
-    	'province',
-    	'city',
+      	'key',
+      	'name',
+      	'phone_number',
+      	'address',
+      	'province',
+      	'city',
         'updated_at',
         'created_at'
     ];

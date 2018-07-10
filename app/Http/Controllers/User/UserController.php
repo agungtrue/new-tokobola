@@ -3,6 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\User;
+use App\Models\Company;
+use App\Models\Member;
+use App\Models\MemberBank;
+use App\Models\MemberCompany;
+use App\Models\MemberFamily;
+
 
 use App\Support\Response\Json;
 use App\Http\Controllers\Controller;

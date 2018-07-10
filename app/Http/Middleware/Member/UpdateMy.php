@@ -105,13 +105,13 @@ class UpdateMy extends BaseMiddleware
     {
         $validator = Validator::make($this->_Request->all(), [
             'name' => 'required|max:255',
+            // 'username' => 'required|max:255',
             'mobile_phone_number' => 'required|min:10|max:14',
             'phone_number' => 'required|min:10|max:14',
             'idcard_number' => 'required|min:16|max:16',
             'npwp_number' => 'min:15|max:16',
             'gender' => 'required',
             'birth_place' => 'required',
-            'birth_date' => 'required',
             'religion' => 'required',
             'citizenship' => 'required',
             'relationship_status' => 'required',

@@ -38,7 +38,7 @@ class LoanController extends Controller
 
             if (isset($request->ArrQuery->loans)) {
                     $query->where('id', 'like', '%' . $request->ArrQuery->loans . '%')
-                          ->Userorwhere('term_type', 'like', '%' . $request->ArrQuery->loans . '%')
+                          ->orwhere('term_type', 'like', '%' . $request->ArrQuery->loans . '%')
                           ->orwhere('term', 'like', '%' . $request->ArrQuery->loans . '%')
                           ->orwhere('principal', 'like', '%' . $request->ArrQuery->loans . '%')
                           ->orwhere('interest', 'like', '%' . $request->ArrQuery->loans . '%')
@@ -65,7 +65,6 @@ class LoanController extends Controller
     {
         $this->request = $request;
         $Model = $request->Payload->all()['Model'];
-        //
         // $Model->Loan->interest = $this->interest($Model->Loan->principal, $Model->Loan->term, $Model->Loan->term_type);
         // $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
         // dd($Model->Loan->user_id);

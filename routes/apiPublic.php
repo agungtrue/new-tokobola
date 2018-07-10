@@ -19,6 +19,7 @@ $router->get('/', function () use ($router) {
 $router->post('/login', ['uses' => 'Authentication\AuthenticationController@login', 'middleware' => ['Authentication.Login']]);
 
 $router->post('/account/member', ['uses' => 'Account\AccountController@memberSignUp', 'middleware' => ['Account.MemberSignUp']]);
+$router->put('/account/member/id/{id}', ['uses' => 'Account\AccountController@update']);
 
 $router->get('/provinces', ['uses' => 'Administrative\AdministrativeController@provinces', 'middleware' => ['ArrQuery']]);
 $router->get('/provinces/{query:.+}', ['uses' => 'Administrative\AdministrativeController@provinces', 'middleware' => ['ArrQuery']]);
