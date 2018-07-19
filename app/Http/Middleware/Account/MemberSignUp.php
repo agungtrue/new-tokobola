@@ -23,7 +23,7 @@ class MemberSignUp extends BaseMiddleware
         $this->Model->User->email = $this->_Request->input('email');
         $this->Model->User->password = $this->_Request->input('password');
         $this->Model->User->mobile_phone_number = $this->_Request->input('mobile_phone_number');
-
+        !$this->_Request->input('company_id') || $this->Model->Member->company_id = $this->_Request->input('company_id');
     }
 
     private function Validation()
@@ -39,10 +39,6 @@ class MemberSignUp extends BaseMiddleware
         if ($this->Model->Member->company_id && !Company::where('id', $this->Model->Member->company_id)->first()) {
             return false;
         }
-        if (!empty($this->_Request->input('company_id'))) {
-          $this->Model->Member->company_id = $this->_Request->input('company_id');
-        }
-
         return true;
     }
 

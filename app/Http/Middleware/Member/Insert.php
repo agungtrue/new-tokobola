@@ -148,7 +148,7 @@ class Insert extends BaseMiddleware
             'term' => 'required',
             'term_type' => 'required'
         ]);
-        
+
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());
             return false;
