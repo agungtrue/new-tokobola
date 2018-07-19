@@ -38,7 +38,7 @@ class Insert extends BaseMiddleware
         $this->Model->Member->birth_place = $this->_Request->input('birth_place');
         $this->Model->Member->birth_date = $this->_Request->input('birth_date');
         $this->Model->Member->religion = $this->_Request->input('religion');
-        // $this->Model->Member->domicile_phone_number = $this->_Request->input('domicile_phone_number');
+        $this->Model->Member->domicile_phone_number = $this->_Request->input('domicile_phone_number');
         $this->Model->Member->address = $this->_Request->input('address');
         $this->Model->Member->province = $this->_Request->input('province');
         $this->Model->Member->city = $this->_Request->input('city');
@@ -50,9 +50,9 @@ class Insert extends BaseMiddleware
         $this->Model->Member->last_education = $this->_Request->input('last_education');
         $this->Model->Member->dependents = $this->_Request->input('dependents');
         $this->Model->Member->kpr_installment = $this->_Request->input('kpr_installment');
-        // $this->Model->Member->idcard_image = $this->_Request->input('idcard_image');
-        // $this->Model->Member->pay_slip_image = $this->_Request->input('pay_slip_image');
-        // $this->Model->Member->profile_image = $this->_Request->input('profile_image');
+        $this->Model->Member->idcard_image = $this->_Request->input('idcard_image');
+        $this->Model->Member->pay_slip_image = $this->_Request->input('pay_slip_image');
+        $this->Model->Member->profile_image = $this->_Request->input('profile_image');
         $this->Model->Member->profession = $this->_Request->input('profession');
         $this->Model->Member->work_position = $this->_Request->input('work_position');
         $this->Model->Member->work_start_year = $this->_Request->input('work_start_year');
@@ -148,7 +148,7 @@ class Insert extends BaseMiddleware
             'term' => 'required',
             'term_type' => 'required'
         ]);
-        
+
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());
             return false;
