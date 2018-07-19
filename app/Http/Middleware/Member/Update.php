@@ -58,7 +58,10 @@ class Update extends BaseMiddleware
         $this->Model->Member->work_start_month = $this->_Request->input('work_start_month');
         $this->Model->Member->monthly_income = $this->_Request->input('monthly_income');
         $this->Model->Member->monthly_expenses = $this->_Request->input('monthly_expenses');
+        $this->Model->Member->citizenship = $this->_Request->input('citizenship');
         $this->Model->Member->updated_at = $this->_Request->input('updated_at');
+        $this->Model->Member->npwp_number = $this->_Request->input('npwp_number');
+
 
         $this->Model->MemberBank->bank = $this->_Request->input('bank');
         $this->Model->MemberBank->bank_account_name = $this->_Request->input('bank_account_name');
@@ -107,7 +110,7 @@ class Update extends BaseMiddleware
             'relationship_status' => 'required',
             'last_education' => 'required',
             'dependents' => 'required',
-            'domicile_phone_number' => 'required|min:10|max:14',
+            // 'domicile_phone_number' => 'required|min:10|max:14',
             'address' => 'required',
             'province' => 'required',
             'city' => 'required',
