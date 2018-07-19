@@ -65,9 +65,10 @@ class LoanController extends Controller
     {
         $this->request = $request;
         $Model = $request->Payload->all()['Model'];
-        // $Model->Loan->interest = $this->interest($Model->Loan->principal, $Model->Loan->term, $Model->Loan->term_type);
-        // $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
-        // dd($Model->Loan->user_id);
+        $Model->Loan->interest = $this->interest($Model->Loan->principal, $Model->Loan->term, $Model->Loan->term_type);
+        $Model->Loan->amount = $Model->Loan->principal + $Model->Loan->interest;
+        $Model->Loan->user_id = $request->user()->id;
+
         $Model->Loan->save();
 
         event(new ApprovalEvent($request));

@@ -25,12 +25,11 @@ trait LoanFormula
         ->get()
         ->keyBy('company_id');
 
-        if ($Company) {
+        if (isset($FormulaCollection[$Company->id])) {
             $Formula = $FormulaCollection[$Company->id];
         } else {
             $Formula = $FormulaCollection[0];
         }
-
         return $this->calculateInterest($Formula, $principal, $term, $type);
     }
 
