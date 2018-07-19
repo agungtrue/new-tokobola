@@ -78,6 +78,7 @@ class MemberController extends Controller
                               ->orWhere('address', 'like', '%' . $request->ArrQuery->members . '%')
                               ->orWhere('province', 'like', '%' . $request->ArrQuery->members . '%')
                               ->orWhere('city', 'like', '%' . $request->ArrQuery->members . '%')
+                              ->orWhere('username', 'like', '%' . $request->ArrQuery->members . '%')
                               ->orWhere('sub_district', 'like', '%' . $request->ArrQuery->members . '%');
                     });
             }
@@ -186,15 +187,50 @@ class MemberController extends Controller
         return response()->json(Json::get(), 201);
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $Model = $request->Payload->all()['Model'];
+        // $Model = $request->Payload->all()['Model'];
+        $Model = User::find($id);
 
-        $Model->User->save();
+        $Model->name = $request->name;
+        $Model->username = $request->username;
+        $Model->email = $request->email;
+        $Model->mobile_phone_number = $request->mobile_phone_number;
+
+        $Model->Member->address = $request->address;
+        $Model->Member->idcard_number = $request->idcard_number;
+        $Model->Member->referrer = $request->referrer;
+        $Model->Member->gender = $request->gender;
+        $Model->Member->birth_place = $request->birth_place;
+        $Model->Member->birth_date = $request->birth_date;
+        $Model->Member->religion = $request->religion;
+        $Model->Member->province = $request->province;
+        $Model->Member->city = $request->city;
+        $Model->Member->sub_district = $request->sub_district;
+        $Model->Member->urban_village = $request->urban_village;
+        $Model->Member->postal_code = $request->postal_code;
+        $Model->Member->house_status = $request->house_status;
+        $Model->Member->relationship_status = $request->relationship_status;
+        $Model->Member->last_education = $request->last_education;
+        $Model->Member->dependents = $request->dependents;
+        $Model->Member->kpr_installment = $request->kpr_installment;
+        $Model->Member->profession = $request->profession;
+        $Model->Member->work_position = $request->work_position;
+        $Model->Member->work_start_year = $request->work_start_year;
+        $Model->Member->work_start_month = $request->work_start_month;
+        $Model->Member->monthly_income = $request->monthly_income;
+        $Model->Member->monthly_expenses = $request->monthly_expenses;
+        $Model->Member->phone_number = $request->phone_number;
+        $Model->Member->citizenship = $request->citizenship;
+        $Model->Member->npwp_number = $request->npwp_number;
+
+        // dd($Model->mobile_phone_number);
+
+        $Model->save();
         $Model->Member->save();
-        $Model->MemberBank->save();
-        $Model->MemberFamily->save();
-        $Model->MemberCompany->save();
+        // $Model->MemberBank->save();
+        // $Model->MemberFamily->save();
+        // $Model->MemberCompany->save();
         return response()->json(Json::get(), 201);
 
         // echo 'update';
