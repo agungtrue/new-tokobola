@@ -23,6 +23,15 @@ class MiddlewareServiceProvider extends ServiceProvider
         'Member.Insert' => \App\Http\Middleware\Member\Insert::class,
         'Member.UpdateMy' => \App\Http\Middleware\Member\UpdateMy::class,
 
+        'Club.Insert' => \App\Http\Middleware\Club\Insert::class,
+        'Club.Update' => \App\Http\Middleware\Club\Update::class,
+        'Club.Delete' => \App\Http\Middleware\Club\Delete::class,
+
+        'Liga.Insert' => \App\Http\Middleware\Liga\Insert::class,
+        'Liga.Update' => \App\Http\Middleware\Liga\Update::class,
+        'Liga.Delete' => \App\Http\Middleware\Liga\Delete::class,
+
+
         'Company.Insert' => \App\Http\Middleware\Company\Insert::class,
 
         'Loan.Insert' => \App\Http\Middleware\Loan\Insert::class,

@@ -21,15 +21,13 @@ class AccountController extends Controller
     public function memberSignUp(Request $request)
     {
         $Model = $request->Payload->all()['Model'];
-        $RealPassword = $Model->User->password;
-        $Model->User->password = app('hash')->make($RealPassword);
-        if (Hash::needsRehash($Model->User->password)) {
-            $Model->User->password = app('hash')->make($RealPassword);
-        }
+        // $RealPassword = $Model->User->password;
+        // $Model->User->password = app('hash')->make($RealPassword);
+        // if (Hash::needsRehash($Model->User->password)) {
+        //     $Model->User->password = app('hash')->make($RealPassword);
+        // }
+        // dd($Model->User);
         $Model->User->save();
-
-        $Model->Member->user_id = $Model->User->id;
-        $Model->Member->save();
 
         // PUSH EVENT
         event(new NewUserRegistration($request));

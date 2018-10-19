@@ -12,7 +12,7 @@
 */
 use App\Support\Response\Json;
 $router->get('/', function () use ($router) {
-    Json::set('message', 'WELCOME TO SUN API FOR KASBONDONG SYSTEM');
+    Json::set('message', 'WELCOME TO SUN API FOR TOKOBOLA SYSTEM');
     return response()->json(Json::get(), 200);
 });
 

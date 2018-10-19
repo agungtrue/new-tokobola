@@ -6,10 +6,6 @@ namespace App\Models;
  * Relation Models
  */
 
-use App\Models\Member;
-use App\Models\MemberBank;
-use App\Models\MemberCompany;
-use App\Models\MemberFamily;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;
@@ -27,8 +23,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
+    protected $table = 'member';
+    public $timestamps = false;
+    
     protected $fillable = [
-        'name', 'email',
+        'nama_lengkap', 'email', 'gender', 'alamat', 'username',
+        'password', 'no_hp', 'id_club', 'id_club_negara', 'id_liga'
     ];
 
     /**
@@ -40,39 +40,52 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password',
     ];
 
-    public function member()
-    {
-        return $this->hasOne(Member::class, 'user_id', 'id')
-        ->with('province')
-        ->with('city')
-        ->with('sub_district')
-        ->with('urban_village')
-        ->with('idcard_province')
-        ->with('idcard_city')
-        ->with('idcard_sub_district')
-        ->with('idcard_urban_village');
+    public function negara_klub() {
+      return $this->hasOne(Negara::class, 'id', 'id_club_negara')->select('id', 'name');
     }
 
-    public function memberBank()
-    {
-        return $this->hasOne(MemberBank::class, 'user_id', 'id');
+    public function liga() {
+      return $this->hasOne(Liga::class, 'id', 'id_liga')->select('id', 'name');
     }
 
-    public function memberCompany()
-    {
-        return $this->hasOne(MemberCompany::class, 'user_id', 'id')
-        ->with('company_province')
-        ->with('company_city')
-        ->with('company_sub_district')
-        ->with('company_urban_village');
+    public function club() {
+      return $this->hasOne(Clubs::class, 'id', 'id_club')->select('id', 'name');
     }
 
-    public function memberFamily()
-    {
-        return $this->hasOne(MemberFamily::class, 'user_id', 'id')
-        ->with('family_province')
-        ->with('family_city')
-        ->with('family_sub_district')
-        ->with('family_urban_village');
-    }
+
+    // public function member()
+    // {
+    //     return $this->hasOne(Member::class, 'user_id', 'id')
+    //     ->with('province')
+    //     ->with('city')
+    //     ->with('sub_district')
+    //     ->with('urban_village')
+    //     ->with('idcard_province')
+    //     ->with('idcard_city')
+    //     ->with('idcard_sub_district')
+    //     ->with('idcard_urban_village');
+    // }
+
+    // public function memberBank()
+    // {
+    //     return $this->hasOne(MemberBank::class, 'user_id', 'id');
+    // }
+
+    // public function memberCompany()
+    // {
+    //     return $this->hasOne(MemberCompany::class, 'user_id', 'id')
+    //     ->with('company_province')
+    //     ->with('company_city')
+    //     ->with('company_sub_district')
+    //     ->with('company_urban_village');
+    // }
+
+    // public function memberFamily()
+    // {
+    //     return $this->hasOne(MemberFamily::class, 'user_id', 'id')
+    //     ->with('family_province')
+    //     ->with('family_city')
+    //     ->with('family_sub_district')
+    //     ->with('family_urban_village');
+    // }
 }
