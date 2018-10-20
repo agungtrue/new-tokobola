@@ -24,6 +24,7 @@ class MemberSignUp extends BaseMiddleware
         $this->Model->User->email = $this->_Request->input('email');
         $this->Model->User->gender = $this->_Request->input('gender');
         $this->Model->User->alamat = $this->_Request->input('alamat');
+        $this->Model->User->foto_profile = $this->_Request->input('foto_profile');
         $this->Model->User->no_hp = $this->_Request->input('no_hp');
         $pass = $this->_Request->input('password');
         $this->Model->User->password = Hash::make($pass);

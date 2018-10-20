@@ -25,9 +25,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $table = 'member';
     public $timestamps = false;
-    
+
     protected $fillable = [
-        'nama_lengkap', 'email', 'gender', 'alamat', 'username',
+        'nama_lengkap', 'email', 'gender', 'alamat', 'username', 'foto_profile',
         'password', 'no_hp', 'id_club', 'id_club_negara', 'id_liga'
     ];
 

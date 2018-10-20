@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Middleware\Club;
+namespace App\Http\Middleware\Order;
 
 use App\Models\User;
-use App\Models\Member;
 use App\Models\Clubs;
+use App\Models\Produk;
+use App\Models\Order;
+
 
 use Closure;
 use Validator;
@@ -15,17 +17,14 @@ class Update extends BaseMiddleware
 {
     private function Instantiate()
     {
-        $this->Model->Club = new Clubs();
-        $this->Model->Club->name = $this->_Request->input('name');
-        $this->Model->Club->image = $this->_Request->input('image');
-        $this->Model->Club->id_liga = $this->_Request->input('id_liga');
+      $this->Model->Order = new Order();
+      $this->Model->Order->status = $this->_Request->input('status');
     }
 
     private function Validation()
     {
         $validator = Validator::make($this->_Request->all(), [
-            'name' => 'required|unique:clubs',
-            'id_liga' => 'required'
+            'status' => 'required'
         ]);
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());

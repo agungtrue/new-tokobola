@@ -23,6 +23,27 @@ $router->post('/member', ['uses' => 'Users\MemberController@create', 'middleware
 $router->put('/member/id/{id}', ['uses' => 'Users\MemberController@update']);
 $router->delete('/member/id/{id}', ['uses' => 'Users\MemberController@delete']);
 
+//blog
+$router->get('/blog', ['uses' => 'Blog\BlogController@get', 'middleware' => ['ArrQuery']]);
+$router->get('/blog/{query:.+}', ['uses' => 'Blog\BlogController@get', 'middleware' => ['ArrQuery']]);
+$router->post('/blog', ['uses' => 'Blog\BlogController@create', 'middleware' => ['Blog.Insert']]);
+$router->put('/blog/id/{id}', ['uses' => 'Blog\BlogController@update', 'middleware' => ['Blog.Update']]);
+$router->delete('/blog/id/{id}', ['uses' => 'Blog\BlogController@delete']);
+
+//order
+$router->get('/order', ['uses' => 'Order\OrderController@get', 'middleware' => ['ArrQuery']]);
+$router->get('/order/{query:.+}', ['uses' => 'Order\OrderController@get', 'middleware' => ['ArrQuery']]);
+$router->post('/order', ['uses' => 'Order\OrderController@create', 'middleware' => ['Order.Insert']]);
+$router->put('/order/order_id/{id}', ['uses' => 'Order\OrderController@update', 'middleware' => ['Order.Update']]);
+$router->delete('/order/id/{id}', ['uses' => 'Order\OrderController@delete']);
+
+//produk
+$router->get('/produk', ['uses' => 'Produk\ProdukController@get', 'middleware' => ['ArrQuery']]);
+$router->get('/produk/{query:.+}', ['uses' => 'Produk\ProdukController@get', 'middleware' => ['ArrQuery']]);
+$router->post('/produk', ['uses' => 'Produk\ProdukController@create', 'middleware' => ['Produk.Insert']]);
+$router->put('/produk/id/{id}', ['uses' => 'Produk\ProdukController@update', 'middleware' => ['Produk.Update']]);
+$router->delete('/produk/id/{id}', ['uses' => 'Produk\ProdukController@delete']);
+
 //Clubs
 $router->get('/club', ['uses' => 'Club\ClubController@get', 'middleware' => ['ArrQuery']]);
 $router->get('/club/{query:.+}', ['uses' => 'Club\ClubController@get', 'middleware' => ['ArrQuery']]);
