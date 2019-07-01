@@ -17,9 +17,9 @@ class Insert extends BaseMiddleware
     private function Instantiate()
     {
       $this->Model->Blog = new Blog();
+      $this->Model->Blog->member_id = $this->_Request->user()->id;
       $this->Model->Blog->judul = $this->_Request->input('judul');
       $this->Model->Blog->konten = $this->_Request->input('konten');
-      $this->Model->Blog->member_id = $this->_Request->input('member_id');
     }
 
     private function Validation()
@@ -27,9 +27,7 @@ class Insert extends BaseMiddleware
         $validator = Validator::make($this->_Request->all(), [
             // 'name' => 'required|unique:clubs',
             'judul' => 'required',
-            'konten' => 'required',
-            'member_id' => 'required'
-
+            'konten' => 'required'
         ]);
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());

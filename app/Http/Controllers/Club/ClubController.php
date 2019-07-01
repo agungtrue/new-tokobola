@@ -30,6 +30,13 @@ class ClubController extends Controller
                     $query->where('id', $request->ArrQuery->id);
                 }
             }
+            if (isset($request->ArrQuery->liga)) {
+                $request->ArrQuery->takeAll = true;
+                $query->where('id_liga', $request->ArrQuery->liga);
+            }
+            if (isset($request->ArrQuery->search)) {
+                    $query->where('name', 'like', '%' . $request->ArrQuery->search . '%');
+            }
         });
         $Browse = $this->Browse($request, $Club, function ($data) {
             return $data;
@@ -42,8 +49,14 @@ class ClubController extends Controller
     {
         $this->Model = $request->Payload->all()['Model'];
         $Club = $this->Model->Club;
+        if (isset($Club->image)) {
+            if ($Club->image !== 'pdf') {
+                Storage::disk('public')->put('/images/club/' . $Club->image->original, Storage::disk('temporary')->get($Club->image->original), 'public');
+            }
+            $Club->image = 'http://api.tokobola.loc/images/club/' . $Club->image->original;
+        }
         $Club->save();
-        Json::set('data', 'successfully created data');
+        Json::set('data', $Club);
         return response()->json(Json::get(), 201);
     }
 
@@ -51,11 +64,19 @@ class ClubController extends Controller
     {
         $Club = Clubs::find($id);
         $Club->name =  $request->name;
-        $Club->image =  $request->image;
-        $Club->id_liga =  $request->id_liga;
+        // $Club->id_liga =  $request->id_liga;
+        $Club->image =  $request->image ? json_decode($request->image) : null;
+
+        if (isset($Club->image)) {
+            if ($Club->image->extension !== 'pdf') {
+                Storage::disk('public')->put('/images/club/' . $Club->image->original, Storage::disk('temporary')->get($Club->image->original), 'public');
+            }
+            $Club->image = 'http://api.tokobola.loc/images/club/' . $Club->image->original;
+        }
+
         $Club->save();
 
-        Json::set('data', 'successfully update data');
+        Json::set('data', $Club);
         return response()->json(Json::get(), 201);
 
     }

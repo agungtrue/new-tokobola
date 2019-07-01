@@ -21,6 +21,42 @@ trait Browse
         if (!$request->ArrQuery->takeAll) {
           $Model->take($request->ArrQuery->take)->skip($request->ArrQuery->skip);
         }
+        if (isset($request->ArrQuery->Desc)) {
+            if (isset($request->ArrQuery->param)) {
+                $param = explode('.', $request->ArrQuery->param);
+                if (count($param) > 1) {
+                    $Model->orderByRaw(strtolower($param[0]) . ', ' . $param[1] . ' asc');
+                }else{
+                    $Model->orderBy(strtolower($request->ArrQuery->param), 'asc');
+                }
+            }else{
+                $Model->orderBy('order_id', 'desc');
+            }
+        }
+        if (isset($request->ArrQuery->orderDesc)) {
+            if (isset($request->ArrQuery->param)) {
+                $param = explode('.', $request->ArrQuery->param);
+                if (count($param) > 1) {
+                    $Model->orderByRaw(strtolower($param[0]) . ', ' . $param[1] . ' asc');
+                }else{
+                    $Model->orderBy(strtolower($request->ArrQuery->param), 'asc');
+                }
+            }else{
+                $Model->orderBy('id', 'desc');
+            }
+        }
+        if (isset($request->ArrQuery->orderAsc)) {
+            if (isset($request->ArrQuery->param)) {
+                $param = explode('.', $request->ArrQuery->param);
+                if (count($param) > 1) {
+                    $Model->orderByRaw(strtolower($param[0]) . ', ' . $param[1] . ' asc');
+                }else{
+                    $Model->orderBy(strtolower($request->ArrQuery->param), 'asc');
+                }
+            }else{
+                $Model->orderBy('id', 'asc');
+            }
+        }
         if (config('app.debug')) {
             $ModelForSQL = clone $Model;
             $Array['debug'] = [

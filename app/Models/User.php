@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+use App\Models\Order;
+
 
 /**
  * Relation Models
@@ -27,7 +29,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public $timestamps = false;
 
     protected $fillable = [
-        'nama_lengkap', 'email', 'gender', 'alamat', 'username', 'foto_profile',
+        'nama_lengkap', 'email', 'jenis_kelamin', 'alamat', 'username', 'foto_profile',
         'password', 'no_hp', 'id_club', 'id_club_negara', 'id_liga'
     ];
 
@@ -49,7 +51,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     }
 
     public function club() {
-      return $this->hasOne(Clubs::class, 'id', 'id_club')->select('id', 'name');
+      return $this->hasOne(Clubs::class, 'id', 'id_club')->select('id', 'name', 'image');
+    }
+
+    public function order() {
+      return $this->hasMany(Order::class, 'member_id', 'id')->with('orderdetail');
     }
 
 

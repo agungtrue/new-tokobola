@@ -20,7 +20,6 @@ class LigaController extends Controller
 
     public function get(Request $request)
     {
-        // dd('woeks');
         $Liga = Liga::
         where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
@@ -29,6 +28,11 @@ class LigaController extends Controller
                 } else {
                     $query->where('id', $request->ArrQuery->id);
                 }
+            }
+
+            if (isset($request->ArrQuery->negara)) {
+                $request->ArrQuery->takeAll = true;
+                $query->where('id_negara', $request->ArrQuery->negara);
             }
         });
         $Browse = $this->Browse($request, $Liga, function ($data) {
@@ -67,5 +71,19 @@ class LigaController extends Controller
 
         Json::set('data', 'successfully deleted data');
         return response()->json(Json::get(), 201);
+    }
+
+    public function ligaselected(Request $request)
+    {
+        $request->ArrQuery->takeAll = true;
+        $Liga = Liga::where(function ($query) use(&$request) {
+            if (isset($request->ArrQuery->negara)) {
+                $request->ArrQuery->takeAll = true;
+                $query->where('id_negara', $request->ArrQuery->negara);
+            }
+        });
+        $Browse = $this->Browse($request, $Liga);
+        Json::set('data', $Browse);
+        return response()->json(Json::get(), 200);
     }
 }

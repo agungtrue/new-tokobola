@@ -22,11 +22,12 @@ class MemberSignUp extends BaseMiddleware
         $this->Model->User->id_club_negara = $this->_Request->input('id_club_negara');
         $this->Model->User->id_liga = $this->_Request->input('id_liga');
         $this->Model->User->email = $this->_Request->input('email');
-        $this->Model->User->gender = $this->_Request->input('gender');
+        $this->Model->User->jenis_kelamin = $this->_Request->input('jenis_kelamin');
         $this->Model->User->alamat = $this->_Request->input('alamat');
-        $this->Model->User->foto_profile = $this->_Request->input('foto_profile');
+        // $this->Model->User->foto_profile = $this->_Request->input('foto_profile');
         $this->Model->User->no_hp = $this->_Request->input('no_hp');
         $pass = $this->_Request->input('password');
+        // $this->Model->User->foto_profile = $this->_Request->input('foto_profile') ? json_decode($this->_Request->input('foto_profile')) : null;
         $this->Model->User->password = Hash::make($pass);
     }
 
@@ -38,7 +39,7 @@ class MemberSignUp extends BaseMiddleware
             'id_liga' => 'required',
             'nama_lengkap' => 'required',
             'email' => 'required|unique:member|max:255',
-            'gender' => 'required',
+            'jenis_kelamin' => 'required',
             'alamat' => 'required',
             'password' => 'required|max:255'
         ]);

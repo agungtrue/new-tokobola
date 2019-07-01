@@ -16,6 +16,8 @@ use App\Models\Clubs;
 use App\Models\Liga;
 use App\Models\Negara;
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Keranjang;
 
 
 
@@ -25,18 +27,51 @@ class OrderController extends Controller
 
     public function get(Request $request)
     {
-      $Order= Order::with('produk')
+      $Order= Order::with('orderdetail', 'member')
       ->where(function ($query) use($request) {
-            if (isset($request->ArrQuery->id)) {
-                $query->where('id', $request->ArrQuery->id);
-            }
 
             if (isset($request->ArrQuery->member_id)) {
-                if ($request->ArrQuery->member_id === 'my') {
-                    $query->where('id', $request->user()->id);
-                } else {
-                    $query->where('id', $request->ArrQuery->id);
+                $query->where('member_id', $request->ArrQuery->id);
+            }
+
+            if (isset($request->ArrQuery->id)) {
+                $query->where('order_id', $request->ArrQuery->id);
+            }
+
+            if (isset($request->ArrQuery->order_myAll)) {
+                if ($request->ArrQuery->order_myAll === 'all') {
+                    $query->where('member_id', $request->user()->id);
                 }
+            }
+
+            if (isset($request->ArrQuery->order_my)) {
+                if ($request->ArrQuery->order_my === 'my') {
+                    $query->where('member_id', $request->user()->id)
+                          ->where(function($query) {
+                    return $query->where('status', '=', 'unpaid');
+                  });
+                }
+            }
+
+            if (isset($request->ArrQuery->hasPaid)) {
+                if ($request->ArrQuery->hasPaid === 'paid') {
+                    $query->where('member_id', $request->user()->id)
+                          ->where(function($query) {
+                    return $query->where('status', '=', 'paid');
+                  });
+                }
+            }
+
+            if (isset($request->ArrQuery->orderToday)) {
+                $query->where('created_at', 'like', '%' . $request->ArrQuery->orderToday . '%');
+            }
+
+            if (isset($request->ArrQuery->search)) {
+                    $query->where('order_id', 'like', '%' . $request->ArrQuery->search . '%')
+                          ->orwhereHas('member', function ($query) use($request) {
+                        $query->where('nama_lengkap', 'like', '%' . $request->ArrQuery->search . '%')
+                              ->orWhere('username', 'like', '%' . $request->ArrQuery->search . '%');
+                    });
             }
         });
 
@@ -64,9 +99,67 @@ class OrderController extends Controller
     public function create(Request $request)
     {
         $this->Model = $request->Payload->all()['Model'];
-        $Order = $this->Model->Order;
-        $Order->save();
-        Json::set('data', 'successfully created data');
+
+        //bikin array kosong untuk menampung data order
+        $orderDetail = [];
+
+        //decode data yg berisikan banyaknya id dari table keranjang
+        $arrayofkeranjang_id = json_decode($this->Model->Order->keranjang_id);
+
+        //hapus keranjang_id dari Model Order
+        unset($this->Model->Order->keranjang_id);
+
+        //bikin variable untuk menampung total dari harga dan qty
+        $totalHarga = 0;
+        $totalQty = 0;
+
+        //looping data yg berisikan keranjang_id
+        foreach ($arrayofkeranjang_id as $key => $value) {
+
+          //temukan keranjang_id dari table keranjang
+          $keranjang = Keranjang::find($value);
+
+          $totalQty += $keranjang['jumlah'];
+          $totalHarga += $keranjang['total_harga_produk'];
+
+          //masukan data yg sudah di looping, kedalam array baru
+          $data = array();
+          $data['produk_id'] = $keranjang['produk_id'];
+          $data['harga_produk'] = $keranjang['harga_produk'];
+          $data['qty'] = $keranjang['jumlah'];
+          $data['keterangan'] = $keranjang['keterangan'];
+
+          //masukan array tersebut kedalam variable $orderDetail
+          array_push($orderDetail, $data);
+        }
+
+
+        //masukan data yg sudah diolah kedalam model order
+        $this->Model->Order->jumlah_barang = $totalQty;
+        $this->Model->Order->total_harga_pesanan = $totalHarga;
+        $this->Model->Order->save();
+
+        //hapus keranjang_id yang digunakan untuk melakukan orders
+        foreach ($arrayofkeranjang_id as $key => $value) {
+
+          //temukan keranjang_id dari table keranjang
+          $keranjang = Keranjang::find($value);
+          $keranjang->delete();
+        }
+
+        //ambil order_id yg akan di proses dan buat key baru dengan nama 'order_id' ke dalam variable
+        //$orderDetail
+        $order_id = $this->Model->Order->order_id;
+        foreach ($orderDetail as $key => $value) {
+
+          //masukan value dari var $order_id kedalam table order detail['order_id']
+          $orderDetail[$key]['order_id'] = $order_id;
+        }
+
+        //lakukan bluck insert ke table order detail
+        OrderDetail::insert($orderDetail);
+        // Json::set('data', $Model->Loan);
+        Json::set('data', $this->Model->Order);
         return response()->json(Json::get(), 201);
     }
 

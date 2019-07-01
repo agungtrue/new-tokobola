@@ -27,6 +27,10 @@ class MiddlewareServiceProvider extends ServiceProvider
         'Blog.Update' => \App\Http\Middleware\Blog\Update::class,
         'Blog.Delete' => \App\Http\Middleware\Blog\Delete::class,
 
+        'Iklan.Insert' => \App\Http\Middleware\Iklan\Insert::class,
+        'Iklan.Update' => \App\Http\Middleware\Iklan\Update::class,
+        'Iklan.Delete' => \App\Http\Middleware\Iklan\Delete::class,
+
         'Produk.Insert' => \App\Http\Middleware\Produk\Insert::class,
         'Produk.Update' => \App\Http\Middleware\Produk\Update::class,
         'Produk.Delete' => \App\Http\Middleware\Produk\Delete::class,
@@ -34,6 +38,10 @@ class MiddlewareServiceProvider extends ServiceProvider
         'Order.Insert' => \App\Http\Middleware\Order\Insert::class,
         'Order.Update' => \App\Http\Middleware\Order\Update::class,
         'Order.Delete' => \App\Http\Middleware\Order\Delete::class,
+
+        'Keranjang.Insert' => \App\Http\Middleware\Keranjang\Insert::class,
+        'Keranjang.Update' => \App\Http\Middleware\Keranjang\Update::class,
+        'Keranjang.Delete' => \App\Http\Middleware\Keranjang\Delete::class,
 
         'Club.Insert' => \App\Http\Middleware\Club\Insert::class,
         'Club.Update' => \App\Http\Middleware\Club\Update::class,

@@ -38,7 +38,8 @@ class ImageController extends Controller
 
         Json::set('data', [
             'key' => $KeyName,
-            'extension' => $ExtensionImage
+            'extension' => $ExtensionImage,
+            'original' => $Name
         ]);
         return response()->json(Json::get(), 201);
     }

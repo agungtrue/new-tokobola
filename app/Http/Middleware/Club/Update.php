@@ -24,8 +24,8 @@ class Update extends BaseMiddleware
     private function Validation()
     {
         $validator = Validator::make($this->_Request->all(), [
-            'name' => 'required|unique:clubs',
-            'id_liga' => 'required'
+            // 'name' => 'required|unique:clubs',
+            // 'id_liga' => 'required'
         ]);
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());

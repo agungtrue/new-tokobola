@@ -17,7 +17,7 @@ class Insert extends BaseMiddleware
     {
         $this->Model->Club = new Clubs();
         $this->Model->Club->name = $this->_Request->input('name');
-        $this->Model->Club->image = $this->_Request->input('image');
+        $this->Model->Club->image = $this->_Request->input('image') ? json_decode($this->_Request->input('image')) : null;
         $this->Model->Club->id_liga = $this->_Request->input('id_liga');
     }
 
@@ -25,7 +25,9 @@ class Insert extends BaseMiddleware
     {
         $validator = Validator::make($this->_Request->all(), [
             'name' => 'required|unique:clubs',
-            'id_liga' => 'required'
+            'id_liga' => 'required',
+            'image' => 'required',
+
         ]);
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());

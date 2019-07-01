@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Support\Response\Json;
 use App\Traits\Browse;
@@ -25,32 +26,34 @@ class ProdukController extends Controller
     public function get(Request $request)
     {
       // dd('wpeils');
-      $Produk = Produk::with('member', 'kategori_produk')
+      $Produk = Produk::with('penjual', 'kategori_produk', 'club')
       ->where(function ($query) use($request) {
             if (isset($request->ArrQuery->id)) {
                 $query->where('id', $request->ArrQuery->id);
             }
 
-            if (isset($request->ArrQuery->member_id)) {
-                if ($request->ArrQuery->member_id === 'my') {
-                    $query->where('id', $request->user()->id);
+            if (isset($request->ArrQuery->userclub)) {
+                if ($request->ArrQuery->userclub === 'my') {
+                    $query->where('id_club', $request->user()->id_club);
                 } else {
-                    $query->where('id', $request->ArrQuery->id);
+                    $query->where('id_club', $request->ArrQuery->userclub);
                 }
             }
+
+            if (isset($request->ArrQuery->id_club)) {
+                $query->where('id_club', $request->ArrQuery->id_club);
+            }
+
+            if (isset($request->ArrQuery->kategori)) {
+                $query->where('id_kategori_produk', $request->ArrQuery->kategori);
+            }
+
+            if (isset($request->ArrQuery->search)) {
+                    $query->where('id', 'like', '%' . $request->ArrQuery->search . '%')
+                          ->orwhere('nama_produk', 'like', '%' . $request->ArrQuery->search . '%');
+            }
+
         });
-
-      // $users = $users->map(function($user) {
-      //   if ($user->gender === 'L') {
-      //     $user->alamat .= ' A';
-      //   }
-      //   return $user;
-      // });
-
-      // $users = $users->map(function($user) {
-      //   $user->greeting = 'adada';
-      //   return $user;
-      // });
 
       $Browse = $this->Browse($request, $Produk, function ($data) {
           return $data;
@@ -65,6 +68,12 @@ class ProdukController extends Controller
     {
         $this->Model = $request->Payload->all()['Model'];
         $Produk = $this->Model->Produk;
+        if (isset($Produk->images)) {
+            if ($Produk->images !== 'pdf') {
+                Storage::disk('public')->put('/images/produk-tokobola/' . $Produk->images->original, Storage::disk('temporary')->get($Produk->images->original), 'public');
+            }
+            $Produk->images = 'http://api.tokobola.loc/images/produk-tokobola/' . $Produk->images->original;
+        }
         $Produk->save();
         Json::set('data', 'successfully created data');
         return response()->json(Json::get(), 201);

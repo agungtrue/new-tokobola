@@ -7,6 +7,8 @@ use App\Models\Clubs;
 use App\Models\Produk;
 use App\Models\Blog;
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Keranjang;
 
 use Closure;
 use Validator;
@@ -18,15 +20,16 @@ class Insert extends BaseMiddleware
     private function Instantiate()
     {
       $this->Model->Order = new Order();
-      $this->Model->Order->produk_id = $this->_Request->input('produk_id');
+      $this->Model->Order->member_id = $this->_Request->user()->id;
+      $this->Model->Order->keranjang_id = $this->_Request->input('keranjang_id');
+      $this->Model->Order->alamat_pengiriman = $this->_Request->input('alamat_pengiriman');
       $this->Model->Order->status = 'unpaid';
     }
 
     private function Validation()
     {
         $validator = Validator::make($this->_Request->all(), [
-            // 'name' => 'required|unique:clubs',
-            'produk_id' => 'required'
+            // 'keranjang_id' => 'required'
         ]);
         if ($validator->fails()) {
             $this->Json::set('errors', $validator->errors());

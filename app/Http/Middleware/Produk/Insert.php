@@ -20,7 +20,8 @@ class Insert extends BaseMiddleware
       $this->Model->Produk->harga_produk = $this->_Request->input('harga_produk');
       $this->Model->Produk->id_kategori_produk = $this->_Request->input('id_kategori_produk');
       $this->Model->Produk->spesifikasi_produk = $this->_Request->input('spesifikasi_produk');
-      $this->Model->Produk->images = $this->_Request->input('images');
+      $this->Model->Produk->id_club = $this->_Request->input('id_club');
+      $this->Model->Produk->images = $this->_Request->input('images') ? json_decode($this->_Request->input('images')) : null;
     }
 
     private function Validation()
@@ -30,7 +31,8 @@ class Insert extends BaseMiddleware
             'nama_produk' => 'required',
             'harga_produk' => 'required',
             'id_kategori_produk' => 'required',
-            'spesifikasi_produk' => 'required'
+            'spesifikasi_produk' => 'required',
+            'id_club' => 'required'
 
         ]);
         if ($validator->fails()) {
